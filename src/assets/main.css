@@ -1,9 +1,23 @@
 @import './base.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .container {
     width: 1440px;
+}
+
+.custom-border {
+    border-color: var(--vt-c-vermilion);
+}
+
+.custom-layout {
+    background-color: var(--vt-c-spacegray);
+    color: var(--vt-c-platinum);
+}
+
+.btn-custom-primary {
+    background-color: var(--vt-c-vermilion);
+    color: var(--vt-c-snow);
+}
+
+.text-custom-primary {
+    color: var(--vt-c-vermilion);
 }

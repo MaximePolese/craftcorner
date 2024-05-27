@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: HomeView,
       meta: {
         title: 'Home'
@@ -14,7 +14,7 @@ const router = createRouter({
     },
     // {
     //   path: '/shop',
-    //   name: 'shop',
+    //   name: 'Shop',
     //   component: () => import('../views/ShopView.vue'),
     //   meta: {
     //     title: 'Shop'
@@ -22,7 +22,7 @@ const router = createRouter({
     // },
     // {
     //   path: '/product',
-    //   name: 'product',
+    //   name: 'Product',
     //   component: () => import('../views/ProductView.vue'),
     //   meta: {
     //     title: 'Product'
@@ -30,7 +30,7 @@ const router = createRouter({
     // },
     // {
     //   path: '/cart',
-    //   name: 'cart',
+    //   name: 'Cart',
     //   component: () => import('../views/CartView.vue'),
     //   meta: {
     //     title: 'Cart'
@@ -38,7 +38,7 @@ const router = createRouter({
     // },
     // {
     //   path: '/user',
-    //   name: 'user',
+    //   name: 'User',
     //   component: () => import('../views/UserView.vue'),
     //   meta: {
     //     title: 'User'
@@ -46,7 +46,7 @@ const router = createRouter({
     // },
     // {
     //   path: '/:pathMatch(.*)*',
-    //   name: 'not-found',
+    //   name: 'Not-found',
     //   component: () => import('../views/NotFoundView.vue'),
     //   meta: {
     //     title: 'Not Found'
