@@ -31,7 +31,9 @@
             </svg>
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow custom-layout rounded-box w-52">
-            <li><a>Categories</a></li>
+            <li>
+              <RouterLink to="/shops">Shops</RouterLink>
+            </li>
             <li><a>Products</a></li>
             <li><a>Materials</a></li>
             <li><a>Craftsmen</a></li>
@@ -59,7 +61,9 @@
               <span class="font-bold text-lg">1 Item</span>
               <span class="text-custom-primary">Subtotal: $999</span>
               <div class="card-actions">
-                <button class="btn btn-custom-primary btn-block btn-ghost">View cart</button>
+                <RouterLink to="/cart">
+                  <button class="btn btn-custom-primary btn-block btn-ghost">View cart</button>
+                </RouterLink>
               </div>
             </div>
           </div>

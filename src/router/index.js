@@ -12,14 +12,14 @@ const router = createRouter({
         title: 'Home'
       }
     },
-    // {
-    //   path: '/shop',
-    //   name: 'Shop',
-    //   component: () => import('../views/ShopView.vue'),
-    //   meta: {
-    //     title: 'Shop'
-    //   }
-    // },
+    {
+      path: '/shops',
+      name: 'Shops',
+      component: () => import('../views/ShopsView.vue'),
+      meta: {
+        title: 'Shops'
+      }
+    },
     // {
     //   path: '/product',
     //   name: 'Product',
@@ -28,14 +28,14 @@ const router = createRouter({
     //     title: 'Product'
     //   }
     // },
-    // {
-    //   path: '/cart',
-    //   name: 'Cart',
-    //   component: () => import('../views/CartView.vue'),
-    //   meta: {
-    //     title: 'Cart'
-    //   }
-    // },
+    {
+      path: '/cart',
+      name: 'Cart',
+      component: () => import('../views/CartView.vue'),
+      meta: {
+        title: 'Cart'
+      }
+    },
     // {
     //   path: '/user',
     //   name: 'User',
