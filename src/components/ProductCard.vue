@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 const props = defineProps({
+  id: Number,
   title: String,
   description: String,
   artisan: String,
@@ -11,13 +12,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card w-96 shadow-xl border-2">
-    <figure ><img :src="imageUrl" :alt="title" class="h-64"/></figure>
-    <div class="card-body">
+  <div class="card w-72 h-96 shadow-xl border-2">
+    <figure><img :src="imageUrl" :alt="title" class="h-40 pt-4" /></figure>
+    <div class="card-body p-4">
       <h2 class="card-title">{{ title }}</h2>
-      <p>{{ description }}</p>
       <p>Artisan : {{ artisan }}</p>
-      <p>Price : ${{ price }}</p>
+      <p>Prix : {{ price }} €</p>
       <div class="card-actions justify-end">
         <button class="btn btn-custom-primary btn-ghost">Ajouter au panier</button>
       </div>

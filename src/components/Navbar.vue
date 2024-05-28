@@ -6,8 +6,10 @@
   <div class="navbar justify-center custom-layout">
     <div class="container flex justify-between gap-2">
       <div class="flex-1">
-        <img src="@/assets/logo.svg" alt="Logo" class="min-h-12 h-12 hidden sm:block" />
-        <img src="/public/favicon.ico" alt="Logo" class="pl-2 min-h-8 h-8 block sm:hidden " />
+        <RouterLink to="/">
+          <img src="@/assets/logo.svg" alt="Logo" class="min-h-12 h-12 hidden sm:block" />
+          <img src="/public/favicon.ico" alt="Logo" class="pl-2 min-h-8 h-8 block sm:hidden " />
+        </RouterLink>
       </div>
       <div class="flex-2 sm:flex-1">
         <div class="form-control">
@@ -32,11 +34,10 @@
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow custom-layout rounded-box w-52">
             <li>
-              <RouterLink to="/shops">Shops</RouterLink>
+              <RouterLink to="/">Acceuil</RouterLink>
             </li>
-            <li><a>Products</a></li>
-            <li><a>Materials</a></li>
-            <li><a>Craftsmen</a></li>
+            <li><RouterLink to="/users">Les Artisans</RouterLink></li>
+            <li><a>Catégories de produits</a></li>
           </ul>
         </div>
         <div class="dropdown dropdown-end">
@@ -58,11 +59,11 @@
           </div>
           <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 custom-layout shadow">
             <div class="card-body">
-              <span class="font-bold text-lg">1 Item</span>
+              <span class="font-bold text-lg">1 article</span>
               <span class="text-custom-primary">Subtotal: $999</span>
               <div class="card-actions">
                 <RouterLink to="/cart">
-                  <button class="btn btn-custom-primary btn-block btn-ghost">View cart</button>
+                  <button class="btn btn-custom-primary btn-block btn-ghost">Voir mon panier</button>
                 </RouterLink>
               </div>
             </div>
@@ -82,7 +83,7 @@
             </div>
           </div>
           <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
-            <li><a>Profile</a></li>
+            <li><RouterLink to="/profile">Profile</RouterLink></li>
             <li><a>Settings</a></li>
             <li><a>Logout</a></li>
           </ul>

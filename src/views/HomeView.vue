@@ -1,17 +1,18 @@
 <script setup>
-import { onMounted } from 'vue'
+import { useFetch } from '@vueuse/core'
 import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
-import Product from '@/components/Product.vue'
 
+import ProductCard from '@/components/ProductCard.vue'
+import Carousel from '@/components/Carousel.vue'
+
+const route = useRoute()
 const store = useAppStore()
 
 onMounted(() => {
-  const route = useRoute()
   document.title = `${route.name} - ${store.appName}`
 })
-
-import { useFetch } from '@vueuse/core'
 
 const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21').json()
 </script>
@@ -19,21 +20,22 @@ const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21'
 <template>
   <div class="flex justify-center">
     <div class="container">
+      <Carousel />
+      <h1 class="pl-28 pt-10">Meilleures ventes</h1>
       <div class="flex flex-col items-center py-10">
-
-        <h1>Accueil</h1>
-        <p>Bienvenue sur la page d'accueil de notre site.</p>
-
-        <div class="p-12">
-          <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <li v-for="product in products" :key="product.id">
-              <Product
-                v-bind:title="product.title"
-                v-bind:description="product.description"
-                artisan="Toto le menuisier"
-                v-bind:price="product.price"
-                v-bind:imageUrl="product.image"
-              />
+              <RouterLink :to="`/product/${product.id}`">
+                <ProductCard
+                  v-bind:id="product.id"
+                  v-bind:title="product.title"
+                  v-bind:description="product.description"
+                  artisan="Toto le menuisier"
+                  v-bind:price="product.price"
+                  v-bind:imageUrl="product.image"
+                />
+              </RouterLink>
             </li>
           </ul>
         </div>
