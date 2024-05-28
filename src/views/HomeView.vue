@@ -21,7 +21,7 @@ const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21'
   <div class="flex justify-center">
     <div class="container">
       <Carousel />
-      <h1 class="pl-28 pt-10">Meilleures ventes</h1>
+      <h1 class="text-3xl pl-28 pt-10">Meilleures ventes</h1>
       <div class="flex flex-col items-center py-10">
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -43,3 +43,7 @@ const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21'
     </div>
   </div>
 </template>
+
+<style scoped>
+
+</style>

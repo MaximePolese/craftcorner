@@ -37,6 +37,14 @@ const router = createRouter({
     //   }
     // },
     {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('../views/ProfileView.vue'),
+      meta: {
+        title: 'Profile'
+      }
+    },
+    {
       path: '/users',
       name: 'Users',
       component: () => import('../views/UsersView.vue'),
@@ -53,23 +61,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('../views/ProfileView.vue'),
-      meta: {
-        title: 'Profile'
-      }
-    },
-    {
-      path: '/users/:id/shops',
-      name: 'Shops',
-      component: () => import('../views/ShopsView.vue'),
-      meta: {
-        title: 'Shops'
-      }
-    },
-    {
-      path: '/users/:id/shops/:shopid',
+      path: '/users/:id/:shopid',
       name: 'Shop',
       component: () => import('../views/ShopView.vue'),
       meta: {
