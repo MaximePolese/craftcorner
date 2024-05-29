@@ -1,14 +1,30 @@
 <script setup>
 import { ref } from 'vue'
+import { useCartStore } from '@/stores/cartStore'
 
 const props = defineProps({
-  id: Number,
+  id: String,
   title: String,
   description: String,
   artisan: String,
   price: Number,
   imageUrl: String
 })
+
+const cartStore = useCartStore()
+
+const addToCart = () => {
+  const product = {
+    id: props.id,
+    title: props.title,
+    description: props.description,
+    artisan: props.artisan,
+    price: props.price,
+    imageUrl: props.imageUrl
+  }
+  cartStore.addToCart(product)
+}
+
 </script>
 
 <template>
@@ -19,7 +35,7 @@ const props = defineProps({
       <p>Artisan : {{ artisan }}</p>
       <p>Prix : {{ price }} €</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-custom-primary btn-ghost">Ajouter au panier</button>
+        <button class="btn btn-custom-primary btn-ghost" @click="addToCart">Ajouter au panier</button>
       </div>
     </div>
   </div>
