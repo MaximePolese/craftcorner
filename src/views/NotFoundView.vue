@@ -1,4 +1,14 @@
 <script setup>
+import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
+import { useAppStore } from '@/stores/appStore'
+
+const route = useRoute()
+const store = useAppStore()
+
+onMounted(() => {
+  document.title = `${route.name} - ${store.appName}`
+})
 
 </script>
 

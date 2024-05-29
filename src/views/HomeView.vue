@@ -1,12 +1,12 @@
 <script setup>
 // Importing necessary modules and components
-import { useFetch } from '@vueuse/core' // A composable for fetching data
 import { useRoute } from 'vue-router' // A composable for accessing the current route
 import { onMounted } from 'vue' // A lifecycle hook that is called after the component is mounted
 import { useAppStore } from '@/stores/appStore' // A composable for accessing the application store
 
 import ProductCard from '@/components/ProductCard.vue' // A component for displaying a product
-import Carousel from '@/components/Carousel.vue' // A component for displaying a carousel
+import Carousel from '@/components/Carousel.vue'
+import BannerSignUp from '@/components/BannerSignUp.vue' // A component for displaying a carousel
 
 // Using the composables
 const route = useRoute() // Get the current route
@@ -18,6 +18,7 @@ onMounted(() => {
 })
 
 // Fetch the products data
+import { useFetch } from '@vueuse/core' // A composable for fetching data
 const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21').json()
 </script>
 
@@ -45,6 +46,7 @@ const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21'
           </ul>
         </div>
       </div>
+      <BannerSignUp /> <!-- Display the sign up banner -->
     </div>
   </div>
 </template>

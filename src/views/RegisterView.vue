@@ -3,47 +3,37 @@ import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
-import { useUserStore } from '@/stores/userStore.js'
 
 const router = useRouter()
 const route = useRoute()
 const store = useAppStore()
-const userStore = useUserStore()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
 
-const user = userStore.getUser('1')
-
 const form = ref({
-  id: user.id,
-  pseudo: user.pseudo,
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  address: user.address,
-  phoneNumber: user.phoneNumber,
-  image: user.image,
-  deliveryAddress: user.deliveryAddress,
+  pseudo: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  address: '',
+  phoneNumber: '',
+  image: null,
+  deliveryAddress: '',
   password: '',
   passwordConfirmation: '',
-  rgpd: user.rgpd,
-  newsletter: user.newsletter
+  rgpd: false,
+  newsletter: false
 })
 
 const onFileChange = (e) => {
   form.value.image = e.target.files[0]
 }
 
-const updateForm = () => {
+const submitForm = () => {
   console.log(form.value)
-  userStore.updateUser('1', form.value)
-  router.push('/')
-}
-
-const deleteUser = () => {
-  userStore.deleteUser('1')
+  store.setAuth(true)
   router.push('/')
 }
 </script>
@@ -51,9 +41,9 @@ const deleteUser = () => {
 <template>
   <div class="flex justify-center py-10">
     <div class="container custom">
-      <h1 class="text-3xl p-5">Modifier mon compte</h1>
+      <h1 class="text-3xl p-5">Créer un compte</h1>
       <div class="flex flex-col justify-between h-full">
-        <form @submit.prevent="updateForm" class="flex flex-col pl-10">
+        <form @submit.prevent="submitForm" class="flex flex-col pl-10">
           <label class="pb-2" for="pseudo">Pseudo:</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.pseudo"
                  type="text" required>
@@ -99,15 +89,20 @@ const deleteUser = () => {
                  v-model="form.passwordConfirmation"
                  type="password" required>
 
+          <label for="rgpd" class="flex items-center">
+            <input class="checkbox checkbox-md custom-border border-2" id="rgpd" type="checkbox" v-model="form.rgpd"
+                   required>
+            <span class="ml-2">Je donne mon accord pour la collecte des données RGPD</span>
+          </label>
+
           <label for="newsletter" class="flex items-center">
             <input class="checkbox checkbox-md custom-border border-2" id="newsletter" type="checkbox"
                    v-model="form.newsletter">
             <span class="ml-2">J'accepte de recevoir des Newsletter</span>
           </label>
-          <button class="btn btn-custom-primary btn-ghost px-20 m-5 self-end" type="submit">Update User</button>
-          <button class="btn btn-custom-primary btn-ghost px-20 m-5 self-end" @click="deleteUser">Delete User</button>
-        </form>
+          <button class="btn btn-custom-primary btn-ghost px-20 m-5 self-end" type="submit">Valider</button>
 
+        </form>
       </div>
     </div>
   </div>

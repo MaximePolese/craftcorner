@@ -12,14 +12,14 @@ const router = createRouter({
         title: 'Home'
       }
     },
-    // {
-    //   path: '/register',
-    //   name: 'Register',
-    //   component: () => import('../views/RegisterView.vue'),
-    //   meta: {
-    //     title: 'Register'
-    //   }
-    // },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('../views/RegisterView.vue'),
+      meta: {
+        title: 'Register'
+      }
+    },
     // {
     //   path: '/login',
     //   name: 'Login',

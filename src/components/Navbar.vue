@@ -1,4 +1,9 @@
 <script setup>
+import { useAppStore } from '@/stores/appStore'
+
+const store = useAppStore()
+const isAuth = store.isAuth
+console.log(isAuth)
 
 </script>
 
@@ -36,8 +41,9 @@
             <li>
               <RouterLink to="/">Acceuil</RouterLink>
             </li>
-            <li><RouterLink to="/users">Les Artisans</RouterLink></li>
-            <li><a>Catégories de produits</a></li>
+            <li>
+              <RouterLink to="/users">Les Artisans</RouterLink>
+            </li>
           </ul>
         </div>
         <div class="dropdown dropdown-end">
@@ -60,7 +66,7 @@
           <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 custom-layout shadow">
             <div class="card-body">
               <span class="font-bold text-lg">1 article</span>
-              <span class="text-custom-primary">Subtotal: $999</span>
+              <span class="text-custom-primary">Total : 999 €</span>
               <div class="card-actions">
                 <RouterLink to="/cart">
                   <button class="btn btn-custom-primary btn-block btn-ghost">Voir mon panier</button>
@@ -69,7 +75,7 @@
             </div>
           </div>
         </div>
-        <div class="dropdown dropdown-end">
+        <div v-if="isAuth" class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
@@ -83,9 +89,37 @@
             </div>
           </div>
           <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
-            <li><RouterLink to="/profile">Profile</RouterLink></li>
-            <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li>
+              <RouterLink to="/profile">Mon profil</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/logout">Se déconnecter</RouterLink>
+            </li>
+          </ul>
+        </div>
+        <div v-else class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M23.8167 23.8334C26.4329 23.8864 28.6494 25.7754 29.1167 28.35L29.5 30.25C29.8787 31.8899 29.5065 33.6132 28.4848 34.9507C27.4632 36.2882 25.8984 37.1006 24.2167 37.1667H8.73337C7.04931 37.1066 5.4806 36.2957 4.45768 34.9565C3.43477 33.6174 3.06507 31.8906 3.45004 30.25L3.83337 28.35C4.29343 25.778 6.50441 23.8878 9.1167 23.8334H23.8167ZM24.2167 34.6667C25.0589 34.6591 25.8512 34.2661 26.3667 33.6C27.0275 32.8025 27.28 31.7432 27.05 30.7334L26.6667 28.8334C26.4314 27.426 25.2423 26.376 23.8167 26.3167H9.1167C7.69489 26.3774 6.51135 27.4286 6.28337 28.8334L5.98337 30.75C5.75889 31.7546 6.01111 32.8065 6.6667 33.6C7.16395 34.2437 7.92063 34.6343 8.73337 34.6667H24.2167Z"
+                      fill="#DBDFE6" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M17.3 20.5H15.6334C11.9515 20.5 8.9667 17.5153 8.9667 13.8334V9.43335C8.9667 6.34056 11.4739 3.83335 14.5667 3.83335H18.3334C19.8257 3.81998 21.2613 4.40461 22.3197 5.45675C23.3781 6.5089 23.9712 7.94097 23.9667 9.43335V13.8334C23.9667 17.5153 20.9819 20.5 17.3 20.5ZM14.5667 6.33335C12.8546 6.33335 11.4667 7.72127 11.4667 9.43335V13.8334C11.4756 16.1179 13.3157 17.9727 15.6 18H17.2667C18.3718 18 19.4316 17.561 20.213 16.7796C20.9944 15.9982 21.4334 14.9384 21.4334 13.8334V9.43335C21.4334 7.72127 20.0455 6.33335 18.3334 6.33335H14.5667Z"
+                      fill="#DBDFE6" />
+                <path
+                  d="M35.6334 10.9167H33.3334V8.63335C33.3334 7.943 32.7737 7.38335 32.0834 7.38335C31.393 7.38335 30.8334 7.943 30.8334 8.63335V10.9167H28.5667C27.8763 10.9167 27.3167 11.4763 27.3167 12.1667C27.3167 12.857 27.8763 13.4167 28.5667 13.4167H30.85V15.7C30.85 16.3904 31.4097 16.95 32.1 16.95C32.7904 16.95 33.35 16.3904 33.35 15.7V13.4167H35.6334C36.3237 13.4167 36.8834 12.857 36.8834 12.1667C36.8834 11.4763 36.3237 10.9167 35.6334 10.9167Z"
+                  fill="#DBDFE6" />
+              </svg>
+            </div>
+          </div>
+          <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
+            <li>
+              <RouterLink to="/register">Créer un compte</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/login">Se connecter</RouterLink>
+            </li>
           </ul>
         </div>
       </div>
