@@ -1,18 +1,34 @@
 <script setup>
-import { useFetch } from '@vueuse/core'
 import { useRoute } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
+import { useCartStore } from '@/stores/cartStore.js'
 
 const route = useRoute()
 const store = useAppStore()
+const cartStore = useCartStore()
+const id = route.params.id
+let quantity = ref(1)
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
 
-const id = route.params.id
+import { useFetch } from '@vueuse/core'
 const { data: product } = useFetch('https://fakestoreapi.com/products/' + id).json()
+
+const addToCart = () => {
+  const productToAdd = {
+    id: id.value,
+    title: product.title,
+    description: product.description,
+    artisan: 'Toto',
+    price: product.price,
+    imageUrl: product.image,
+    quantity: quantity.value
+  }
+  cartStore.addToCart(productToAdd)
+}
 
 </script>
 
@@ -65,7 +81,12 @@ const { data: product } = useFetch('https://fakestoreapi.com/products/' + id).js
             <option>XL</option>
             <option>XXL</option>
           </select>
-          <button class="btn btn-custom-primary btn-ghost">Ajouter au panier</button>
+          <div class="mb-2">
+            <label for="quantity" class="block mb-1">Quantité :</label>
+            <input id="quantity" type="number" min="1" v-model="quantity"
+                   class="w-full max-w-xs custom-border border-2 bg-white">
+          </div>
+          <button class="btn btn-custom-primary btn-ghost" @click="addToCart">Ajouter au panier</button>
         </div>
       </div>
     </div>

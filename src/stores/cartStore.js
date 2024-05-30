@@ -14,7 +14,12 @@ export const useCartStore = defineStore('cart', () => {
     }
 
     function addToCart(product) {
-      cart.value.push(product)
+      const existingProduct = cart.value.find(p => p.id === product.id)
+      if (existingProduct) {
+        existingProduct.quantity += product.quantity
+      } else {
+        cart.value.push(product)
+      }
     }
 
     function deleteCartProduct(id) {
@@ -22,6 +27,28 @@ export const useCartStore = defineStore('cart', () => {
 
     }
 
-    return { cart, getCart, deleteCart, addToCart, deleteCartProduct }
-  }
+    function getCartTotal() {
+      return cart.value.reduce((acc, product) => acc + product.price, 0)
+    }
+
+    function getCartCount() {
+      return cart.value.length
+    }
+
+    function updateCartProductQuantity(id, quantity) {
+      const product = cart.value.find(product => product.id === id)
+      product.quantity = quantity
+    }
+
+    return {
+      cart,
+      getCart,
+      deleteCart,
+      addToCart,
+      deleteCartProduct,
+      getCartTotal,
+      getCartCount,
+      updateCartProductQuantity
+    }
+  }, { persist: true }
 )

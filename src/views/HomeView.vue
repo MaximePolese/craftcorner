@@ -11,15 +11,12 @@ import BannerSignUp from '@/components/BannerSignUp.vue' // A component for disp
 // Using the composables
 const route = useRoute() // Get the current route
 const store = useAppStore() // Get the application store
+store.fetchProducts()
 
 // Set the document title when the component is mounted
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
-
-// Fetch the products data
-import { useFetch } from '@vueuse/core' // A composable for fetching data
-const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21').json()
 </script>
 
 <template>
@@ -31,17 +28,15 @@ const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21'
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <!-- Loop over the products and display each one in a ProductCard -->
-            <li v-for="product in products" :key="product.id">
-              <RouterLink :to="`/product/${product.id}`">
-                <ProductCard
-                  v-bind:id="product.id"
-                  v-bind:title="product.title"
-                  v-bind:description="product.description"
-                  artisan="Toto le menuisier"
-                  v-bind:price="product.price"
-                  v-bind:imageUrl="product.image"
-                />
-              </RouterLink>
+            <li v-for="product in store.products" :key="product.id">
+              <ProductCard
+                v-bind:id="product.id.toString()"
+                v-bind:title="product.title"
+                v-bind:description="product.description"
+                artisan="Toto"
+                v-bind:price="product.price"
+                v-bind:imageUrl="product.image"
+              />
             </li>
           </ul>
         </div>

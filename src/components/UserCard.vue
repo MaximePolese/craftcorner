@@ -18,9 +18,11 @@ const props = defineProps({
     <div class="card-body p-4">
       <h2 class="card-title">{{ username }}</h2>
       <p>Email : {{ email }}</p>
-      <p>Adresse : {{ address.city }}</p>
+      <p>Adresse : {{ address }}</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-custom-primary btn-ghost">Voir la page de l'artisan</button>
+        <RouterLink :to="`/users/${id}`">
+          <div class="btn btn-custom-primary btn-ghost">Voir la page de l'artisan</div>
+        </RouterLink>
       </div>
     </div>
   </div>

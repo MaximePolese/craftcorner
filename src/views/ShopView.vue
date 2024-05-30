@@ -1,5 +1,4 @@
 <script setup>
-import { useFetch } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
@@ -8,33 +7,29 @@ import ProductCard from '@/components/ProductCard.vue'
 
 const route = useRoute()
 const store = useAppStore()
+store.fetchProducts()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
-
-const { data: products } = useFetch('https://fakestoreapi.com/products?limit=21').json()
 </script>
-
 
 <template>
   <div class="flex justify-center">
     <div class="container">
-      <h1 class="pl-28 pt-10">Shop test</h1>
+      <h1 class="text-3xl pl-28 pt-10">Mon Shop</h1>
       <div class="flex flex-col items-center py-10">
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <li v-for="product in products" :key="product.id">
-              <RouterLink :to="`/product/${product.id}`">
-                <ProductCard
-                  v-bind:id="product.id"
-                  v-bind:title="product.title"
-                  v-bind:description="product.description"
-                  artisan="Toto le menuisier"
-                  v-bind:price="product.price"
-                  v-bind:imageUrl="product.image"
-                />
-              </RouterLink>
+            <li v-for="product in store.products" :key="product.id">
+              <ProductCard
+                v-bind:id="product.id.toString()"
+                v-bind:title="product.title"
+                v-bind:description="product.description"
+                artisan="Toto le menuisier"
+                v-bind:price="product.price"
+                v-bind:imageUrl="product.image"
+              />
             </li>
           </ul>
         </div>

@@ -20,14 +20,14 @@ const router = createRouter({
         title: 'Register'
       }
     },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: () => import('../views/LoginView.vue'),
-    //   meta: {
-    //     title: 'Login'
-    //   }
-    // },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/LoginView.vue'),
+      meta: {
+        title: 'Login'
+      }
+    },
     // {
     //   path: '/logout',
     //   name: 'Logout',
@@ -84,14 +84,6 @@ const router = createRouter({
         title: 'Cart'
       }
     },
-    // {
-    //   path: '/search/:query',
-    //   name: 'Search',
-    //   component: () => import('../views/SearchView.vue'),
-    //   meta: {
-    //     title: 'Search'
-    //   }
-    // },
     {
       path: '/:pathMatch(.*)*',
       name: 'Not-found',
@@ -100,6 +92,14 @@ const router = createRouter({
         title: 'Not Found'
       }
     }
+    // {
+    //   path: '/search/:query',
+    //   name: 'Search',
+    //   component: () => import('../views/SearchView.vue'),
+    //   meta: {
+    //     title: 'Search'
+    //   }
+    // },
   ]
 })
 

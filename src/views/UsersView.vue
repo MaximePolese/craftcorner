@@ -1,19 +1,18 @@
 <script setup>
-import { useFetch } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
+import { useUserStore } from '@/stores/userStore'
 import UserCard from '@/components/UserCard.vue'
-
 
 const route = useRoute()
 const store = useAppStore()
+const userStore = useUserStore()
+userStore.fetchUsers()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
-
-const { data: users } = useFetch('https://fakestoreapi.com/users').json()
 </script>
 
 <template>
@@ -23,16 +22,14 @@ const { data: users } = useFetch('https://fakestoreapi.com/users').json()
       <div class="flex flex-col items-center py-10">
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <li v-for="user in users" :key="user.id">
-              <RouterLink :to="`/users/${user.id}`">
-                <UserCard
-                  v-bind:id="user.id"
-                  v-bind:email="user.email"
-                  v-bind:username="user.username"
-                  v-bind:address="user.address"
-                  v-bind:phone="user.phone"
-                />
-              </RouterLink>
+            <li v-for="user in userStore.users" :key="user.id">
+              <UserCard
+                v-bind:id="user.id"
+                v-bind:email="user.email"
+                v-bind:username="user.username"
+                v-bind:address="user.address.city"
+                v-bind:phone="user.phone"
+              />
             </li>
           </ul>
         </div>

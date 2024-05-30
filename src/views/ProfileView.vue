@@ -14,36 +14,35 @@ onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
 
-const user = userStore.getUser('1')
-
 const form = ref({
-  id: user.id,
-  pseudo: user.pseudo,
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  address: user.address,
-  phoneNumber: user.phoneNumber,
-  image: user.image,
-  deliveryAddress: user.deliveryAddress,
-  password: '',
-  passwordConfirmation: '',
-  rgpd: user.rgpd,
-  newsletter: user.newsletter
+  // id: userStore.authUser.id,
+  username: userStore.authUser.username,
+  name: {
+    firstName: userStore.authUser.name.firstName,
+    lastName: userStore.authUser.name.lastName
+  },
+  email: userStore.authUser.email,
+  address: userStore.authUser.address.city,
+  phone: userStore.authUser.phone,
+  password: userStore.authUser.password
+  // passwordConfirmation: '',
+  // image: userStore.user.image,
+  // deliveryAddress: userStore.user.deliveryAddress,
+  // rgpd: userStore.user.rgpd,
+  // newsletter: userStore.user.newsletter
 })
 
-const onFileChange = (e) => {
-  form.value.image = e.target.files[0]
-}
+// const onFileChange = (e) => {
+//   form.value.image = e.target.files[0]
+// }
 
 const updateForm = () => {
   console.log(form.value)
-  userStore.updateUser('1', form.value)
   router.push('/')
 }
 
 const deleteUser = () => {
-  userStore.deleteUser('1')
+  userStore.deleteUser(userStore.authUser.id)
   router.push('/')
 }
 </script>
@@ -55,17 +54,17 @@ const deleteUser = () => {
       <div class="flex flex-col justify-between h-full">
         <form @submit.prevent="updateForm" class="flex flex-col pl-10">
           <label class="pb-2" for="pseudo">Pseudo:</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.pseudo"
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.username"
                  type="text" required>
 
           <label class="pb-2" for="firstName">Prénom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="firstName"
-                 v-model="form.firstName"
+                 v-model="form.name.firstName"
                  type="text" required>
 
           <label class="pb-2" for="lastName">Nom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="lastName"
-                 v-model="form.lastName"
+                 v-model="form.name.lastName"
                  type="text" required>
 
           <label class="pb-2" for="email">Email :</label>
@@ -78,32 +77,32 @@ const deleteUser = () => {
 
           <label class="pb-2" for="phoneNumber">Numéro de téléphone :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="phoneNumber"
-                 v-model="form.phoneNumber" type="tel" required>
+                 v-model="form.phone" type="tel" required>
 
-          <label class="pb-2" for="image">Photo :</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"
-                 @change="onFileChange">
+          <!--          <label class="pb-2" for="image">Photo :</label>-->
+          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"-->
+          <!--                 @change="onFileChange">-->
 
-          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"
-                 v-model="form.deliveryAddress" type="text"
-                 required>
+          <!--          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>-->
+          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"-->
+          <!--                 v-model="form.deliveryAddress" type="text"-->
+          <!--                 required>-->
 
           <label class="pb-2" for="password">Mot de passe :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="password"
                  v-model="form.password"
                  type="password" required>
 
-          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"
-                 v-model="form.passwordConfirmation"
-                 type="password" required>
+          <!--          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>-->
+          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"-->
+          <!--                 v-model="form.passwordConfirmation"-->
+          <!--                 type="password" required>-->
 
-          <label for="newsletter" class="flex items-center">
-            <input class="checkbox checkbox-md custom-border border-2" id="newsletter" type="checkbox"
-                   v-model="form.newsletter">
-            <span class="ml-2">J'accepte de recevoir des Newsletter</span>
-          </label>
+          <!--          <label for="newsletter" class="flex items-center">-->
+          <!--            <input class="checkbox checkbox-md custom-border border-2" id="newsletter" type="checkbox"-->
+          <!--                   v-model="form.newsletter">-->
+          <!--            <span class="ml-2">J'accepte de recevoir des Newsletter</span>-->
+          <!--          </label>-->
           <button class="btn btn-custom-primary btn-ghost px-20 m-5 self-end" type="submit">Update User</button>
           <button class="btn btn-custom-primary btn-ghost px-20 m-5 self-end" @click="deleteUser">Delete User</button>
         </form>

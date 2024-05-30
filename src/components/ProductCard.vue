@@ -11,6 +11,10 @@ const props = defineProps({
   imageUrl: String
 })
 
+const truncateTitle = (title, length = 30) => {
+  return title.length > length ? title.slice(0, length) + '...' : title
+}
+
 const cartStore = useCartStore()
 
 const addToCart = () => {
@@ -20,7 +24,8 @@ const addToCart = () => {
     description: props.description,
     artisan: props.artisan,
     price: props.price,
-    imageUrl: props.imageUrl
+    imageUrl: props.imageUrl,
+    quantity: 1
   }
   cartStore.addToCart(product)
 }
@@ -29,9 +34,11 @@ const addToCart = () => {
 
 <template>
   <div class="card w-72 h-96 shadow-xl border-2">
-    <figure><img :src="imageUrl" :alt="title" class="h-40 pt-4" /></figure>
+    <RouterLink :to="`/product/${id}`">
+      <figure><img :src="imageUrl" :alt="title" class="h-20 pt-4" /></figure>
+    </RouterLink>
     <div class="card-body p-4">
-      <h2 class="card-title">{{ title }}</h2>
+      <h2 class="card-title">{{ truncateTitle(title) }}</h2>
       <p>Artisan : {{ artisan }}</p>
       <p>Prix : {{ price }} €</p>
       <div class="card-actions justify-end">

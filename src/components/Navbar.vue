@@ -1,9 +1,12 @@
 <script setup>
-import { useAppStore } from '@/stores/appStore'
+import { useCartStore } from '../stores/cartStore'
+import { useUserStore } from '@/stores/userStore.js'
+import { computed } from 'vue'
 
-const store = useAppStore()
-const isAuth = store.isAuth
-console.log(isAuth)
+const cartStore = useCartStore()
+const userStore = useUserStore()
+const cartCount = computed(() => cartStore.getCartCount())
+const cartTotal = computed(() => cartStore.getCartTotal())
 
 </script>
 
@@ -23,7 +26,7 @@ console.log(isAuth)
         </div>
       </div>
       <div class="flex-1 flex justify-end gap-2">
-        <div class="dropdown dropdown-end">
+        <div class="dropdown dropdown-hover dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
               <path
@@ -37,16 +40,16 @@ console.log(isAuth)
                 fill="#DBDFE6" />
             </svg>
           </div>
-          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow custom-layout rounded-box w-52">
+          <ul tabindex="0" class="menu menu-sm dropdown-content z-[1] p-2 shadow custom-layout rounded-box w-52">
             <li>
-              <RouterLink to="/">Acceuil</RouterLink>
+              <RouterLink to="/">Accueil</RouterLink>
             </li>
             <li>
               <RouterLink to="/users">Les Artisans</RouterLink>
             </li>
           </ul>
         </div>
-        <div class="dropdown dropdown-end">
+        <div class="dropdown dropdown-hover dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
@@ -60,13 +63,13 @@ console.log(isAuth)
                   d="M29.0501 32.1667C28.1296 32.1667 27.3834 32.9129 27.3834 33.8334C27.3834 34.7538 28.1296 35.5 29.0501 35.5C29.9706 35.5 30.7168 34.7538 30.7168 33.8334C30.7168 32.9129 29.9706 32.1667 29.0501 32.1667Z"
                   fill="#DBDFE6" />
               </svg>
-              <span class="badge badge-sm indicator-item">1</span>
+              <span class="badge badge-sm indicator-item" v-if="cartCount > 0">{{ cartCount }}</span>
             </div>
           </div>
-          <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 custom-layout shadow">
+          <div tabindex="0" class=" z-[1] card card-compact dropdown-content w-52 custom-layout shadow">
             <div class="card-body">
-              <span class="font-bold text-lg">1 article</span>
-              <span class="text-custom-primary">Total : 999 €</span>
+              <span class="font-bold text-lg">{{ cartCount }} {{ cartCount > 1 ? 'articles' : 'article' }}</span>
+              <span class="text-custom-primary">Total : {{ cartTotal }} €</span>
               <div class="card-actions">
                 <RouterLink to="/cart">
                   <button class="btn btn-custom-primary btn-block btn-ghost">Voir mon panier</button>
@@ -75,7 +78,7 @@ console.log(isAuth)
             </div>
           </div>
         </div>
-        <div v-if="isAuth" class="dropdown dropdown-end">
+        <div v-if="userStore.isAuth" class="dropdown dropdown-hover dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
@@ -88,16 +91,16 @@ console.log(isAuth)
               </svg>
             </div>
           </div>
-          <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
+          <ul tabindex="0" class=" z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
             <li>
               <RouterLink to="/profile">Mon profil</RouterLink>
             </li>
             <li>
-              <RouterLink to="/logout">Se déconnecter</RouterLink>
+              <a @click="userStore.logout()">Se déconnecter</a>
             </li>
           </ul>
         </div>
-        <div v-else class="dropdown dropdown-end">
+        <div v-else class="dropdown dropdown-hover dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 40 41" fill="none">
@@ -113,7 +116,7 @@ console.log(isAuth)
               </svg>
             </div>
           </div>
-          <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
+          <ul tabindex="0" class="z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
             <li>
               <RouterLink to="/register">Créer un compte</RouterLink>
             </li>
