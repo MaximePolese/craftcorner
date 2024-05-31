@@ -3,6 +3,7 @@
 import { useRoute } from 'vue-router' // A composable for accessing the current route
 import { onMounted } from 'vue' // A lifecycle hook that is called after the component is mounted
 import { useAppStore } from '@/stores/appStore' // A composable for accessing the application store
+import { useProductStore} from '@/stores/productStore.js'
 
 import ProductCard from '@/components/ProductCard.vue' // A component for displaying a product
 import Carousel from '@/components/Carousel.vue'
@@ -11,7 +12,8 @@ import BannerSignUp from '@/components/BannerSignUp.vue' // A component for disp
 // Using the composables
 const route = useRoute() // Get the current route
 const store = useAppStore() // Get the application store
-store.fetchProducts()
+const productStore = useProductStore()
+productStore.fetchProducts()
 
 // Set the document title when the component is mounted
 onMounted(() => {
@@ -28,7 +30,7 @@ onMounted(() => {
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <!-- Loop over the products and display each one in a ProductCard -->
-            <li v-for="product in store.products" :key="product.id">
+            <li v-for="product in productStore.products" :key="product.id">
               <ProductCard
                 v-bind:id="product.id.toString()"
                 v-bind:title="product.title"

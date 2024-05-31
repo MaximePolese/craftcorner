@@ -43,6 +43,7 @@ const updateForm = () => {
 
 const deleteUser = () => {
   userStore.deleteUser(userStore.authUser.id)
+  userStore.logout()
   router.push('/')
 }
 </script>

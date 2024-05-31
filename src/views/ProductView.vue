@@ -3,28 +3,28 @@ import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useCartStore } from '@/stores/cartStore.js'
+import { useProductStore } from '@/stores/productStore.js'
 
 const route = useRoute()
 const store = useAppStore()
 const cartStore = useCartStore()
+const productStore = useProductStore()
 const id = route.params.id
 let quantity = ref(1)
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
-
-import { useFetch } from '@vueuse/core'
-const { data: product } = useFetch('https://fakestoreapi.com/products/' + id).json()
+productStore.getProduct(id)
 
 const addToCart = () => {
   const productToAdd = {
-    id: id.value,
-    title: product.title,
-    description: product.description,
+    id: productStore.product.id.toString(),
+    title: productStore.product.title,
+    description: productStore.product.description,
     artisan: 'Toto',
-    price: product.price,
-    imageUrl: product.image,
+    price: productStore.product.price,
+    imageUrl: productStore.product.image,
     quantity: quantity.value
   }
   cartStore.addToCart(productToAdd)
@@ -36,14 +36,14 @@ const addToCart = () => {
   <div class="flex justify-center py-10">
     <div class="container">
       <div class="flex justify-center">
-        <img class="h-96 p-5" :src="product.image" :alt="product.title" />
+        <img class="h-96 p-5" :src="productStore.product.image" :alt="productStore.product.title" />
       </div>
-      <h1 class="text-3xl p-5">{{ product.title }}</h1>
+      <h1 class="text-3xl p-5">{{ productStore.product.title }}</h1>
       <div class="flex flex-col sm:flex-row gap-4 p-5">
         <div class="custom p-5">
           <p>Artisan : Toto</p>
-          <p>Description : {{ product.description }}</p>
-          <p>Prix : {{ product.price }} €</p>
+          <p>Description : {{ productStore.product.description }}</p>
+          <p>Prix : {{ productStore.product.price }} €</p>
         </div>
         <div class="flex flex-col custom p-5">
           <div class="rating pb-5">

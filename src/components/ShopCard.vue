@@ -17,7 +17,9 @@ const props = defineProps({
       <h2 class="card-title">{{ shopname }}</h2>
       <p>Description : {{ biography }}</p>
       <div class="card-actions justify-end">
+        <RouterLink :to="`/users/${userid}/${id}`">
         <button class="btn btn-custom-primary btn-ghost">Voir la boutique</button>
+        </RouterLink>
       </div>
     </div>
   </div>

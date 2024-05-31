@@ -2,12 +2,14 @@
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
+import { useProductStore } from '@/stores/productStore.js'
 
 import ProductCard from '@/components/ProductCard.vue'
 
 const route = useRoute()
 const store = useAppStore()
-store.fetchProducts()
+const productStore = useProductStore()
+productStore.fetchProducts()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
@@ -21,7 +23,7 @@ onMounted(() => {
       <div class="flex flex-col items-center py-10">
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <li v-for="product in store.products" :key="product.id">
+            <li v-for="product in productStore.products" :key="product.id">
               <ProductCard
                 v-bind:id="product.id.toString()"
                 v-bind:title="product.title"

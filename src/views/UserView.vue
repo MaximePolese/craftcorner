@@ -27,7 +27,7 @@ userStore.getUser(id)
              alt="userpicture" />
       </div>
       <h1 class="text-3xl p-5">{{ userStore.user.username }}</h1>
-      <div class="custom p-5">
+      <div class="custom p-5 mx-5">
         <p>Email : {{ userStore.user.email }}</p>
         <p>Téléphone : {{ userStore.user.phone }}</p>
         <p>Adresse : {{ userStore.user.address.city }}</p>
@@ -41,10 +41,12 @@ userStore.getUser(id)
         </div>
       </div>
       <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.username }}</h1>
-      <RouterLink :to="`/users/${userStore.user.id}/1`"> <!-- This is a temporary link to the shop page -->
-        <ShopCard id="1" shopname="Boutique de Toto" biography="La boutique dédié aux objets en bois" theme="Bois"
-                  userid="1" />
-      </RouterLink>
+      <div class="flex flex-col items-center sm:flex-row gap-4">
+        <ShopCard id="1" shopname="Menuiserie" biography="La boutique dédié aux objets en bois" theme="Bois"
+                  :userid="userStore.user.id" />
+        <ShopCard id="2" shopname="Métallerie" biography="La boutique dédié aux objets en métal" theme="Métal"
+                  :userid="userStore.user.id" />
+      </div>
     </div>
   </div>
 </template>

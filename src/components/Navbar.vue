@@ -2,11 +2,18 @@
 import { useCartStore } from '../stores/cartStore'
 import { useUserStore } from '@/stores/userStore.js'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const cartStore = useCartStore()
 const userStore = useUserStore()
 const cartCount = computed(() => cartStore.getCartCount())
 const cartTotal = computed(() => cartStore.getCartTotal())
+
+const logout = () => {
+  userStore.logout()
+  router.push('/')
+}
 
 </script>
 
@@ -96,7 +103,7 @@ const cartTotal = computed(() => cartStore.getCartTotal())
               <RouterLink to="/profile">Mon profil</RouterLink>
             </li>
             <li>
-              <a @click="userStore.logout()">Se déconnecter</a>
+              <a @click="logout">Se déconnecter</a>
             </li>
           </ul>
         </div>
