@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card w-72 h-96 shadow-xl border-2">
+  <div class="card w-72 h-96 border-2">
     <figure><img src="https://img.freepik.com/vecteurs-libre/vintage-boutique-logo_1057-438.jpg" alt="title" class="h-40 pt-4" /></figure>
     <div class="card-body p-4">
       <h2 class="card-title">{{ shopname }}</h2>

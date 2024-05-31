@@ -25,7 +25,7 @@ const submitForm = () => {
 
 <template>
   <div class="login p-10">
-    <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+    <div class="card shrink-0 w-full max-w-sm bg-base-100">
       <form class="card-body" @submit.prevent="submitForm">
         <div class="form-control">
           <label class="label">

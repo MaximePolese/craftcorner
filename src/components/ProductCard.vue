@@ -33,7 +33,7 @@ const addToCart = () => {
 </script>
 
 <template>
-  <div class="card w-72 h-96 shadow-xl border-2">
+  <div class="card w-72 h-96 border-2">
     <RouterLink :to="`/product/${id}`">
       <figure><img :src="imageUrl" :alt="title" class="h-20 pt-4" /></figure>
     </RouterLink>

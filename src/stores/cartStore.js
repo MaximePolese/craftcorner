@@ -28,7 +28,8 @@ export const useCartStore = defineStore('cart', () => {
     }
 
     function getCartTotal() {
-      return cart.value.reduce((acc, product) => acc + product.price, 0)
+      const total = cart.value.reduce((acc, product) => acc + (product.price * product.quantity), 0)
+      return parseFloat(total.toFixed(2))
     }
 
     function getCartCount() {
@@ -40,6 +41,28 @@ export const useCartStore = defineStore('cart', () => {
       product.quantity = quantity
     }
 
+    function newOrder(cart) {
+      const products = cart.value.map(product => ({
+        id: product.id,
+        quantity: product.quantity
+      }))
+      fetch('http://localhost:8000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          products: products
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('order', data)
+        })
+        .catch(error => console.error('Error:', error))
+      cart.value = []
+    }
+
     return {
       cart,
       getCart,
@@ -48,7 +71,11 @@ export const useCartStore = defineStore('cart', () => {
       deleteCartProduct,
       getCartTotal,
       getCartCount,
-      updateCartProductQuantity
+      updateCartProductQuantity,
+      newOrder
     }
-  }, { persist: true }
+  },
+  {
+    persist: true
+  }
 )

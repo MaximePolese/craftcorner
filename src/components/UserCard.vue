@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card w-72 h-96 shadow-xl border-2">
+  <div class="card w-72 h-96 border-2">
     <figure><img
       src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"
       alt="userpicture" class="h-40 pt-4" /></figure>

@@ -47,7 +47,7 @@ const logout = () => {
                 fill="#DBDFE6" />
             </svg>
           </div>
-          <ul tabindex="0" class="menu menu-sm dropdown-content z-[1] p-2 shadow custom-layout rounded-box w-52">
+          <ul tabindex="0" class="menu menu-sm dropdown-content z-[1] p-2 custom-layout rounded-box w-52">
             <li>
               <RouterLink to="/">Accueil</RouterLink>
             </li>
@@ -73,7 +73,7 @@ const logout = () => {
               <span class="badge badge-sm indicator-item" v-if="cartCount > 0">{{ cartCount }}</span>
             </div>
           </div>
-          <div tabindex="0" class=" z-[1] card card-compact dropdown-content w-52 custom-layout shadow">
+          <div tabindex="0" class=" z-[1] card card-compact dropdown-content w-52 custom-layout">
             <div class="card-body">
               <span class="font-bold text-lg">{{ cartCount }} {{ cartCount > 1 ? 'articles' : 'article' }}</span>
               <span class="text-custom-primary">Total : {{ cartTotal }} €</span>
@@ -98,7 +98,7 @@ const logout = () => {
               </svg>
             </div>
           </div>
-          <ul tabindex="0" class=" z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
+          <ul tabindex="0" class=" z-[1] p-2 menu menu-sm dropdown-content custom-layout rounded-box w-52">
             <li>
               <RouterLink to="/profile">Mon profil</RouterLink>
             </li>
@@ -123,7 +123,7 @@ const logout = () => {
               </svg>
             </div>
           </div>
-          <ul tabindex="0" class="z-[1] p-2 shadow menu menu-sm dropdown-content custom-layout rounded-box w-52">
+          <ul tabindex="0" class="z-[1] p-2 menu menu-sm dropdown-content custom-layout rounded-box w-52">
             <li>
               <RouterLink to="/register">Créer un compte</RouterLink>
             </li>
