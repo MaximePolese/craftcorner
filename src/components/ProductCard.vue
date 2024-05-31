@@ -35,7 +35,7 @@ const addToCart = () => {
 <template>
   <div class="card w-72 h-96 border-2">
     <RouterLink :to="`/product/${id}`">
-      <figure><img :src="imageUrl" :alt="title" class="h-20 pt-4" /></figure>
+      <figure><img :src="imageUrl" :alt="title" class="h-36 pt-4" /></figure>
     </RouterLink>
     <div class="card-body p-4">
       <h2 class="card-title">{{ truncateTitle(title) }}</h2>
