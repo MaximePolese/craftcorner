@@ -38,6 +38,7 @@ const form = ref({
 
 const updateForm = () => {
   console.log(form.value)
+  userStore.updateUser(form.value)
   router.push('/')
 }
 
