@@ -41,11 +41,12 @@ export const useCartStore = defineStore('cart', () => {
       product.quantity = quantity
     }
 
-    function newOrder(cart) {
+    function newOrder() {
       const products = cart.value.map(product => ({
         id: product.id,
         quantity: product.quantity
       }))
+      console.log('order', products)
       fetch('http://localhost:8000/api/orders', {
         method: 'POST',
         headers: {

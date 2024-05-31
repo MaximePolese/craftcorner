@@ -43,9 +43,9 @@ userStore.getUser(id)
       <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.username }}</h1>
       <div class="flex flex-col items-center sm:flex-row gap-4">
         <ShopCard id="1" shopname="Menuiserie" biography="La boutique dédié aux objets en bois" theme="Bois"
-                  :userid="userStore.user.id" />
+                  :userid="userStore.user.id.toString()" />
         <ShopCard id="2" shopname="Métallerie" biography="La boutique dédié aux objets en métal" theme="Métal"
-                  :userid="userStore.user.id" />
+                  :userid="userStore.user.id.toString()" />
       </div>
     </div>
   </div>

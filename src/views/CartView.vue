@@ -3,11 +3,12 @@ import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useCartStore } from '@/stores/cartStore'
+import { useUserStore} from '@/stores/userStore.js'
 
 const route = useRoute()
 const store = useAppStore()
 const cartStore = useCartStore()
-
+const userStore = useUserStore()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
@@ -26,7 +27,16 @@ const clearCart = () => {
 }
 
 const newOrder = () => {
-  cartStore.newOrder(cartStore.cart)
+  if (cartStore.cart.length === 0) {
+    alert('Votre panier est vide')
+  } else {
+    if (userStore.isAuth === true) {
+      cartStore.newOrder()
+      alert('Votre commande a bien été enregistrée')
+    } else {
+      alert('Vous devez être connecté pour passer une commande')
+    }
+  }
 }
 
 </script>
