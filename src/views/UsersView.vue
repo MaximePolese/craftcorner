@@ -26,9 +26,10 @@ onMounted(() => {
               <UserCard
                 v-bind:id="user.id"
                 v-bind:email="user.email"
-                v-bind:username="user.username"
-                v-bind:address="user.address.city"
-                v-bind:phone="user.phone"
+                v-bind:username="user.pseudo"
+                v-bind:address="user.address"
+                v-bind:phone_number="user.phone_number"
+                v-bind:image="user.image"
               />
             </li>
           </ul>

@@ -22,15 +22,13 @@ userStore.getUser(id)
   <div class="flex justify-center py-10">
     <div class="container">
       <div class="flex justify-center">
-        <img class="h-96 p-5"
-             src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"
-             alt="userpicture" />
+        <img class="h-96 p-5" :src="userStore.user.image" alt="userpicture" />
       </div>
-      <h1 class="text-3xl p-5">{{ userStore.user.username }}</h1>
+      <h1 class="text-3xl p-5">{{ userStore.user.pseudo }}</h1>
       <div class="custom p-5 mx-5">
         <p>Email : {{ userStore.user.email }}</p>
-        <p>Téléphone : {{ userStore.user.phone }}</p>
-        <p>Adresse : {{ userStore.user.address.city }}</p>
+        <p>Téléphone : {{ userStore.user.phone_number }}</p>
+        <p>Adresse : {{ userStore.user.address }}</p>
         <div class="rating pb-5">
           <input type="radio" name="rating-2" class="mask mask-star-2 bg-yellow-400" disabled />
           <input type="radio" name="rating-2" class="mask mask-star-2 bg-yellow-400" disabled checked />
@@ -40,7 +38,7 @@ userStore.getUser(id)
           <p class="pl-5">362 Avis</p>
         </div>
       </div>
-      <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.username }}</h1>
+      <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.pseudo }}</h1>
       <div class="flex flex-col items-center sm:flex-row gap-4">
         <ShopCard id="1" shopname="Menuiserie" biography="La boutique dédié aux objets en bois" theme="Bois"
                   :userid="userStore.user.id.toString()" />

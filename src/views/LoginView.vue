@@ -14,11 +14,11 @@ onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
 
-const username = ref('mor_2314')
-const password = ref('83r5^_')
+const email = ref('')
+const password = ref('')
 
 const submitForm = () => {
-  userStore.login(username.value, password.value)
+  userStore.login(email.value, password.value)
   router.push('/')
 }
 </script>
@@ -29,9 +29,9 @@ const submitForm = () => {
       <form class="card-body" @submit.prevent="submitForm">
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Username</span>
+            <span class="label-text">Email</span>
           </label>
-          <input type="text" placeholder="username" class="input input-bordered" v-model="username" required />
+          <input type="text" placeholder="username" class="input input-bordered" v-model="email" required />
         </div>
         <div class="form-control">
           <label class="label">

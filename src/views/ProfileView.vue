@@ -15,19 +15,17 @@ onMounted(() => {
 })
 
 const form = ref({
-  // id: userStore.authUser.id,
-  username: userStore.authUser.username,
-  name: {
-    firstName: userStore.authUser.name.firstName,
-    lastName: userStore.authUser.name.lastName
-  },
+  id: userStore.authUser.id,
+  pseudo: userStore.authUser.pseudo,
+  first_name: userStore.authUser.first_name,
+  last_name: userStore.authUser.last_name,
   email: userStore.authUser.email,
-  address: userStore.authUser.address.city,
-  phone: userStore.authUser.phone,
-  password: userStore.authUser.password
-  // passwordConfirmation: '',
-  // image: userStore.user.image,
-  // deliveryAddress: userStore.user.deliveryAddress,
+  address: userStore.authUser.address,
+  phone_number: userStore.authUser.phone_number,
+  image: userStore.user.image,
+  delivery_address: userStore.user.delivery_address,
+  password: userStore.authUser.password,
+  password_confirmation: ''
   // rgpd: userStore.user.rgpd,
   // newsletter: userStore.user.newsletter
 })
@@ -37,14 +35,12 @@ const form = ref({
 // }
 
 const updateForm = () => {
-  console.log(form.value)
-  userStore.updateUser(form.value)
+  userStore.updateUser(userStore.authUser.id, form.value)
   router.push('/')
 }
 
 const deleteUser = () => {
   userStore.deleteUser(userStore.authUser.id)
-  userStore.logout()
   router.push('/')
 }
 </script>
@@ -56,17 +52,17 @@ const deleteUser = () => {
       <div class="flex flex-col justify-between h-full">
         <form @submit.prevent="updateForm" class="flex flex-col pl-10">
           <label class="pb-2" for="pseudo">Pseudo:</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.username"
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.pseudo"
                  type="text" required>
 
           <label class="pb-2" for="firstName">Prénom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="firstName"
-                 v-model="form.name.firstName"
+                 v-model="form.first_name"
                  type="text" required>
 
           <label class="pb-2" for="lastName">Nom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="lastName"
-                 v-model="form.name.lastName"
+                 v-model="form.last_name"
                  type="text" required>
 
           <label class="pb-2" for="email">Email :</label>
@@ -79,26 +75,26 @@ const deleteUser = () => {
 
           <label class="pb-2" for="phoneNumber">Numéro de téléphone :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="phoneNumber"
-                 v-model="form.phone" type="tel" required>
+                 v-model="form.phone_number" type="tel" required>
 
           <!--          <label class="pb-2" for="image">Photo :</label>-->
           <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"-->
           <!--                 @change="onFileChange">-->
 
-          <!--          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>-->
-          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"-->
-          <!--                 v-model="form.deliveryAddress" type="text"-->
-          <!--                 required>-->
+          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"
+                 v-model="form.delivery_address" type="text"
+                 required>
 
           <label class="pb-2" for="password">Mot de passe :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="password"
                  v-model="form.password"
                  type="password" required>
 
-          <!--          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>-->
-          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"-->
-          <!--                 v-model="form.passwordConfirmation"-->
-          <!--                 type="password" required>-->
+          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"
+                 v-model="form.password_confirmation"
+                 type="password" required>
 
           <!--          <label for="newsletter" class="flex items-center">-->
           <!--            <input class="checkbox checkbox-md custom-border border-2" id="newsletter" type="checkbox"-->

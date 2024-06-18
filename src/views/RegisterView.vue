@@ -15,27 +15,16 @@ onMounted(() => {
 })
 
 const form = ref({
-  username: '',
-  name: {
-    firstName: '',
-    lastName: ''
-  },
+  pseudo: '',
+  first_name: '',
+  last_name: '',
   email: '',
-  address: {
-    city: 'kilcoole',
-    street: '7835 new road',
-    number: 3,
-    zipcode: '12926-3874',
-    geolocation: {
-      lat: '-37.3159',
-      long: '81.1496'
-    }
-  },
-  phone: '',
-  password: ''
-  // passwordConfirmation: '',
-  // image: null,
-  // deliveryAddress: '',
+  address: '',
+  phone_number: '',
+  password: '',
+  password_confirmation: '',
+  image: 'https://i.pinimg.com/550x/40/74/71/40747151783756ff94b39e018048d30e.jpg',
+  delivery_address: ''
   // rgpd: false,
   // newsletter: false
 })
@@ -46,7 +35,6 @@ const form = ref({
 
 const submitForm = () => {
   userStore.newUser(form.value)
-  userStore.login(form.value.username, form.value.password)
   router.push('/')
 }
 </script>
@@ -58,49 +46,49 @@ const submitForm = () => {
       <div class="flex flex-col justify-between h-full">
         <form @submit.prevent="submitForm" class="flex flex-col pl-10">
           <label class="pb-2" for="pseudo">Pseudo:</label>
-          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.username"
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="pseudo" v-model="form.pseudo"
                  type="text" required>
 
           <label class="pb-2" for="firstName">Prénom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="firstName"
-                 v-model="form.name.firstName"
+                 v-model="form.first_name"
                  type="text" required>
 
           <label class="pb-2" for="lastName">Nom :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="lastName"
-                 v-model="form.name.lastName"
+                 v-model="form.last_name"
                  type="text" required>
 
           <label class="pb-2" for="email">Email :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="email" v-model="form.email"
                  type="email" required>
 
-          <!--          <label class="pb-2" for="address">Adresse :</label>-->
-          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="address" v-model="form.address"-->
-          <!--                 type="text">-->
+          <label class="pb-2" for="address">Adresse :</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="address" v-model="form.address"
+                 type="text">
 
           <label class="pb-2" for="phoneNumber">Numéro de téléphone :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="phoneNumber"
-                 v-model="form.phone" type="tel" required>
+                 v-model="form.phone_number" type="tel" required>
 
           <!--          <label class="pb-2" for="image">Photo :</label>-->
           <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"-->
           <!--                 @change="onFileChange">-->
 
-          <!--          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>-->
-          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"-->
-          <!--                 v-model="form.deliveryAddress" type="text"-->
-          <!--                 required>-->
+          <label class="pb-2" for="deliveryAddress">Adresse de Livraison :</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="deliveryAddress"
+                 v-model="form.delivery_address" type="text"
+                 required>
 
           <label class="pb-2" for="password">Mot de passe :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="password"
                  v-model="form.password"
                  type="password" required>
 
-          <!--          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>-->
-          <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"-->
-          <!--                 v-model="form.passwordConfirmation"-->
-          <!--                 type="password" required>-->
+          <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"
+                 v-model="form.password_confirmation"
+                 type="password" required>
 
           <!--          <label for="rgpd" class="flex items-center">-->
           <!--            <input class="checkbox checkbox-md custom-border border-2" id="rgpd" type="checkbox" v-model="form.rgpd"-->
