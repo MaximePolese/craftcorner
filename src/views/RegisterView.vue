@@ -23,7 +23,7 @@ const form = ref({
   phone_number: '',
   password: '',
   password_confirmation: '',
-  image: 'https://i.pinimg.com/550x/40/74/71/40747151783756ff94b39e018048d30e.jpg',
+  image: '',
   delivery_address: ''
   // rgpd: false,
   // newsletter: false
@@ -61,7 +61,7 @@ const submitForm = () => {
 
           <label class="pb-2" for="email">Email :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="email" v-model="form.email"
-                 type="email" required>
+                 type="email" autocomplete="off" required>
 
           <label class="pb-2" for="address">Adresse :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="address" v-model="form.address"
@@ -70,6 +70,10 @@ const submitForm = () => {
           <label class="pb-2" for="phoneNumber">Numéro de téléphone :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="phoneNumber"
                  v-model="form.phone_number" type="tel" required>
+
+          <label class="pb-2" for="image">Photo :</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" v-model="form.image"
+                 type="text">
 
           <!--          <label class="pb-2" for="image">Photo :</label>-->
           <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"-->
@@ -83,7 +87,7 @@ const submitForm = () => {
           <label class="pb-2" for="password">Mot de passe :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="password"
                  v-model="form.password"
-                 type="password" required>
+                 type="password" autocomplete="off" required>
 
           <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"

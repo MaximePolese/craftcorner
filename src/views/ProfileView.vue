@@ -22,12 +22,11 @@ const form = ref({
   email: userStore.authUser.email,
   address: userStore.authUser.address,
   phone_number: userStore.authUser.phone_number,
-  image: userStore.user.image,
-  delivery_address: userStore.user.delivery_address,
-  password: userStore.authUser.password,
+  image: userStore.authUser.image,
+  delivery_address: userStore.authUser.delivery_address,
+  password: '',
   password_confirmation: ''
-  // rgpd: userStore.user.rgpd,
-  // newsletter: userStore.user.newsletter
+  // newsletter: userStore.authUser.newsletter
 })
 
 // const onFileChange = (e) => {
@@ -35,7 +34,12 @@ const form = ref({
 // }
 
 const updateForm = () => {
-  userStore.updateUser(userStore.authUser.id, form.value)
+  const formData = { ...form.value }
+  if (!formData.password) {
+    delete formData.password
+    delete formData.password_confirmation
+  }
+  userStore.updateUser(userStore.authUser.id, formData)
   router.push('/')
 }
 
@@ -77,6 +81,10 @@ const deleteUser = () => {
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="phoneNumber"
                  v-model="form.phone_number" type="tel" required>
 
+          <label class="pb-2" for="image">Photo :</label>
+          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" v-model="form.image"
+                 type="text">
+
           <!--          <label class="pb-2" for="image">Photo :</label>-->
           <!--          <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="image" type="file"-->
           <!--                 @change="onFileChange">-->
@@ -86,15 +94,15 @@ const deleteUser = () => {
                  v-model="form.delivery_address" type="text"
                  required>
 
-          <label class="pb-2" for="password">Mot de passe :</label>
+          <label class="pb-2" for="password">Nouveau mot de passe :</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="password"
                  v-model="form.password"
-                 type="password" required>
+                 type="password" autocomplete="off">
 
           <label class="pb-2" for="passwordConfirmation">Confirmation du mot de passe:</label>
           <input class="mb-5 bg-white border-2 custom-border w-96 rounded-full pl-2" id="passwordConfirmation"
                  v-model="form.password_confirmation"
-                 type="password" required>
+                 type="password">
 
           <!--          <label for="newsletter" class="flex items-center">-->
           <!--            <input class="checkbox checkbox-md custom-border border-2" id="newsletter" type="checkbox"-->

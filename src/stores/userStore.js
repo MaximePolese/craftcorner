@@ -81,6 +81,7 @@ export const useUserStore = defineStore('user', () => {
         .then(response => response.json())
         .then(data => {
           // console.log('newuser', data)
+          authUser.value = data
           users.value = users.value.map(user => user.id === id ? data : user)
         })
         .catch(error => console.error('Error:', error))
