@@ -1,14 +1,17 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+const api_url = import.meta.env.VITE_API_URL
 
 export const useShopStore = defineStore('shop', () => {
 
     const shops = ref([])
     const shop = ref(null)
+    const shopsByUser = ref([])
 
     function fetchShops() {
-      fetch('http://localhost:8000/api/shops')
+      const url = api_url + '/shops'
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           console.log('shops', data)
@@ -17,8 +20,14 @@ export const useShopStore = defineStore('shop', () => {
         .catch(error => console.error('Error:', error))
     }
 
+    function getShopsByUser(id) {
+      fetchShops()
+      shopsByUser.value = shops.value.filter(shop => shop.user_id === id)
+    }
+
     function getShop(id) {
-      fetch(`http://localhost:8000/api/shops/${id}`)
+      const url = api_url + '/shops/' + id
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           console.log('shop', data)
@@ -26,21 +35,29 @@ export const useShopStore = defineStore('shop', () => {
         })
         .catch(error => console.error('Error:', error))
     }
-
+//-------------------------------------------------------------------------------------------//
     function deleteShop(id) {
-      fetch(`http://localhost:8000/api/shops/${id}`, {
-        method: 'DELETE'
+      const url = api_url + '/shops/' + id
+      fetch(url, {
+        method: 'DELETE',
+        headers: {
+          // 'Authorization': `Bearer ${token.value}`
+        }
       })
-        .then(() => {
-          shops.value = shops.value.filter(product => product.id !== id)
+        .then(response => response.json())
+        .then(data => {
+          console.log('delete shop', data)
+          shops.value = shops.value.filter(shop => shop.id !== id)
         })
         .catch(error => console.error('Error:', error))
     }
 
     function updateShop(id, newShop) {
-      fetch(`http://localhost:8000/api/shops/${id}`, {
+      const url = api_url + '/shops/' + id
+      fetch(url, {
         method: 'PUT',
         headers: {
+          // 'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newShop)
@@ -48,15 +65,17 @@ export const useShopStore = defineStore('shop', () => {
         .then(response => response.json())
         .then(data => {
           console.log('shop', data)
-          shops.value = shops.value.map(product => product.id === id ? data : product)
+          shops.value = shops.value.map(shop => shop.id === id ? data : shop)
         })
         .catch(error => console.error('Error:', error))
     }
 
     function newShop(shop) {
-      fetch(`http://localhost:8000/api/shops`, {
+      const url = api_url + '/shops'
+      fetch(url, {
         method: 'POST',
         headers: {
+          // 'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(shop)
@@ -72,7 +91,9 @@ export const useShopStore = defineStore('shop', () => {
     return {
       shops,
       shop,
+      shopsByUser,
       fetchShops,
+      getShopsByUser,
       getShop,
       deleteShop,
       updateShop,

@@ -3,11 +3,13 @@ import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore.js'
+import { useShopStore } from '@/stores/shopStore.js'
 import ShopCard from '@/components/ShopCard.vue'
 
 const route = useRoute()
 const store = useAppStore()
 const userStore = useUserStore()
+const shopStore = useShopStore()
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
@@ -15,6 +17,7 @@ onMounted(() => {
 
 const id = route.params.id
 userStore.getUser(id)
+shopStore.getShopsByUser(id)
 
 </script>
 
@@ -39,11 +42,18 @@ userStore.getUser(id)
         </div>
       </div>
       <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.pseudo }}</h1>
-      <div class="flex flex-col items-center sm:flex-row gap-4">
-        <ShopCard id="1" shopname="Menuiserie" biography="La boutique dédié aux objets en bois" theme="Bois"
-                  :userid="userStore.user.id.toString()" />
-        <ShopCard id="2" shopname="Métallerie" biography="La boutique dédié aux objets en métal" theme="Métal"
-                  :userid="userStore.user.id.toString()" />
+      <div class="flex flex-col items-center py-10">
+        <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <li v-for="shop in shopStore.shopsByUser" :key="shop.id">
+            <ShopCard
+              v-bind:id="shop.id.toString()"
+              v-bind:shop_name="shop.shop_name"
+              v-bind:biography="shop.biography"
+              v-bind:shop_theme="shop.shop_theme"
+              v-bind:user_id="userStore.user.id.toString()"
+            />
+          </li>
+        </ul>
       </div>
     </div>
   </div>
