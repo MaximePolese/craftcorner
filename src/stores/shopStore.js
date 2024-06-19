@@ -35,6 +35,7 @@ export const useShopStore = defineStore('shop', () => {
         })
         .catch(error => console.error('Error:', error))
     }
+
 //-------------------------------------------------------------------------------------------//
     function deleteShop(id) {
       const url = api_url + '/shops/' + id

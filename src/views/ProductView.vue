@@ -20,11 +20,17 @@ productStore.getProduct(id)
 const addToCart = () => {
   const productToAdd = {
     id: productStore.product.id.toString(),
-    title: productStore.product.title,
+    product_name: productStore.product.product_name,
     description: productStore.product.description,
-    artisan: 'Toto',
+    story: productStore.product.story,
+    image: productStore.product.image,
+    material: productStore.product.material,
+    color: productStore.product.color,
+    size: productStore.product.size,
+    category: productStore.product.category,
     price: productStore.product.price,
-    imageUrl: productStore.product.image,
+    stock_quantity: productStore.product.stock_quantity,
+    shop_id: productStore.product.shop_id,
     quantity: quantity.value
   }
   cartStore.addToCart(productToAdd)
@@ -36,9 +42,9 @@ const addToCart = () => {
   <div class="flex justify-center py-10">
     <div class="container">
       <div class="flex justify-center">
-        <img class="h-96 p-5" :src="productStore.product.image" :alt="productStore.product.title" />
+        <img class="h-96 p-5" :src="productStore.product.image" :alt="productStore.product.product_name" />
       </div>
-      <h1 class="text-3xl p-5">{{ productStore.product.title }}</h1>
+      <h1 class="text-3xl p-5">{{ productStore.product.product_name }}</h1>
       <div class="flex flex-col sm:flex-row gap-4 p-5">
         <div class="custom p-5">
           <p>Artisan : Toto</p>
@@ -83,7 +89,7 @@ const addToCart = () => {
           </select>
           <div class="mb-2">
             <label for="quantity" class="block mb-1">Quantité :</label>
-            <input id="quantity" type="number" min="1" v-model="quantity"
+            <input id="quantity" type="number" min="1" :max="productStore.product.stock_quantity" v-model="quantity"
                    class="w-full max-w-xs custom-border border-2 bg-white">
           </div>
           <button class="btn btn-custom-primary btn-ghost" @click="addToCart">Ajouter au panier</button>

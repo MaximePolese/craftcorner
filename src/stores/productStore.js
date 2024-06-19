@@ -1,14 +1,17 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+const api_url = import.meta.env.VITE_API_URL
 
 export const useProductStore = defineStore('product', () => {
 
     const products = ref([])
     const product = ref(null)
+    const productsByShop = ref([])
 
     function fetchProducts() {
-      fetch('https://fakestoreapi.com/products?limit=21')
+      const url = api_url + '/products'
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           console.log('products', data)
@@ -17,8 +20,20 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
+    // function getProductsByShop(filter) {
+    //   const url = api_url + '/products?filter=' + filter
+    //   fetch(url)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log('product', data)
+    //       product.value = data
+    //     })
+    //     .catch(error => console.error('Error:', error))
+    // }
+
     function getProduct(id) {
-      fetch(`https://fakestoreapi.com/products/${id}`)
+      const url = api_url + '/products/' + id
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           console.log('product', data)
@@ -27,20 +42,29 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
+//-------------------------------------------------------------------------------------------//
     function deleteProduct(id) {
-      fetch(`https://fakestoreapi.com/products/${id}`, {
-        method: 'DELETE'
+      const url = api_url + '/products/' + id
+      fetch(url, {
+        method: 'DELETE',
+        headers: {
+          // 'Authorization': `Bearer ${token.value}`
+        }
       })
-        .then(() => {
+        .then(response => response.json())
+        .then(data => {
+          console.log('delete product', data)
           products.value = products.value.filter(product => product.id !== id)
         })
         .catch(error => console.error('Error:', error))
     }
 
     function updateProduct(id, newProduct) {
-      fetch(`https://fakestoreapi.com/products/${id}`, {
+      const url = api_url + '/products/' + id
+      fetch(url, {
         method: 'PUT',
         headers: {
+          // 'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newProduct)
@@ -54,9 +78,11 @@ export const useProductStore = defineStore('product', () => {
     }
 
     function newProduct(product) {
-      fetch(`https://fakestoreapi.com/products`, {
+      const url = api_url + '/products'
+      fetch(url, {
         method: 'POST',
         headers: {
+          // 'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(product)

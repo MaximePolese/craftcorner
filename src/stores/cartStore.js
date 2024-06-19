@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+const api_url = import.meta.env.VITE_API_URL
 
 export const useCartStore = defineStore('cart', () => {
     const cart = ref([])
@@ -17,14 +18,17 @@ export const useCartStore = defineStore('cart', () => {
       const existingProduct = cart.value.find(p => p.id === product.id)
       if (existingProduct) {
         existingProduct.quantity += product.quantity
+        // existingProduct.stock_quantity -= product.quantity
       } else {
+        // product.stock_quantity -= product.quantity
         cart.value.push(product)
       }
+      console.log(cart.value)
     }
 
     function deleteCartProduct(id) {
       cart.value = cart.value.filter(product => product.id !== id)
-
+      console.log(cart.value)
     }
 
     function getCartTotal() {
@@ -39,6 +43,7 @@ export const useCartStore = defineStore('cart', () => {
     function updateCartProductQuantity(id, quantity) {
       const product = cart.value.find(product => product.id === id)
       product.quantity = quantity
+      console.log(cart.value)
     }
 
     function newOrder() {
@@ -47,9 +52,11 @@ export const useCartStore = defineStore('cart', () => {
         quantity: product.quantity
       }))
       console.log('order', products)
-      fetch('http://localhost:8000/api/orders', {
+      const url = api_url + '/orders'
+      fetch(url, {
         method: 'POST',
         headers: {
+          // 'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -58,7 +65,7 @@ export const useCartStore = defineStore('cart', () => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('order', data)
+          console.log('order validated', data)
         })
         .catch(error => console.error('Error:', error))
       cart.value = []

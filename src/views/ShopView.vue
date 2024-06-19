@@ -32,11 +32,17 @@ productStore.fetchProducts()
           <li v-for="product in productStore.products" :key="product.id">
             <ProductCard
               v-bind:id="product.id.toString()"
-              v-bind:title="product.title"
+              v-bind:product_name="product.product_name"
               v-bind:description="product.description"
-              artisan="Toto le menuisier"
+              v-bind:story="product.story"
+              v-bind:image="product.image"
+              v-bind:material="product.material"
+              v-bind:color="product.color"
+              v-bind:size="product.size"
+              v-bind:category="product.category"
               v-bind:price="product.price"
-              v-bind:imageUrl="product.image"
+              v-bind:stock_quantity="product.stock_quantity"
+              v-bind:shop_id="product.shop_id"
             />
           </li>
         </ul>

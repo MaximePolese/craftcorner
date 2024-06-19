@@ -51,8 +51,8 @@ const newOrder = () => {
             <div class="custom flex items-center justify-between mb-4">
               <div class="flex flex-col gap-4 p-5">
                 <div class="flex gap-10 items-center">
-                  <img :src="product.imageUrl" :alt="product.title" class="h-20" />
-                  <h2 class="card-title">{{ product.title }}</h2>
+                  <img :src="product.image" :alt="product.product_name" class="h-20" />
+                  <h2 class="card-title">{{ product.product_name }}</h2>
                 </div>
                 <label for="quantity">Quantité : <input id="quantity" type="number" min="1" v-model="product.quantity"
                                                         @change="updateQuantity(product.id, product.quantity)"
@@ -80,7 +80,7 @@ const newOrder = () => {
         <div class="custom flex-1 p-6 sm:ml-4 sm:max-w-[400px]">
           <h2 class="text-2xl font-semibold mb-4">Récapitulatif de la commande :</h2>
           <div v-for="product in cartStore.cart" :key="product.id" class="mb-2">
-            <p class="text-lg">{{ product.title }} - {{ product.quantity }} x {{ product.price }} €</p>
+            <p class="text-lg">{{ product.product_name }} - {{ product.quantity }} x {{ product.price }} €</p>
           </div>
           <h2 class="text-2xl font-semibold mt-4 items-end">Total : {{ cartStore.getCartTotal() }} €</h2>
           <button class="btn btn-custom-primary btn-ghost px-20 m-5" @click="newOrder">Commander
