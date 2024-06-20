@@ -7,7 +7,6 @@ export const useUserStore = defineStore('user', () => {
 
     const users = ref([])
     const user = ref(null)
-    const token = ref(null)
     const authUser = ref(null)
     const isAuth = ref(false)
 
@@ -33,28 +32,28 @@ export const useUserStore = defineStore('user', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function getAuthUser() {
+    function getAuthUser(token) {
       const url = api_url + '/user'
       fetch(url, {
         headers: {
-          'Authorization': `Bearer ${token.value}`
+          'Authorization': `Bearer ${token}`
         }
       })
         .then(response => response.json())
         .then(data => {
-          //console.log('authUser', data)
+          console.log('authUser', data)
           authUser.value = data
         })
         .catch(error => console.error('Error:', error))
       isAuth.value = true
     }
 
-    function deleteUser(id) {
+    function deleteUser(id, token) {
       const url = api_url + '/users/' + id
       fetch(url, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token.value}`
+          'Authorization': `Bearer ${token}`
         }
       })
         .then(response => response.json())
@@ -63,17 +62,17 @@ export const useUserStore = defineStore('user', () => {
           users.value = users.value.filter(user => user.id !== id)
         })
         .catch(error => console.error('Error:', error))
-      token.value = null
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       authUser.value = null
       isAuth.value = false
     }
 
-    function updateUser(id, newUser) {
+    function updateUser(id, newUser, token) {
       const url = api_url + '/users/' + id
       fetch(url, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token.value}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newUser)
@@ -104,8 +103,8 @@ export const useUserStore = defineStore('user', () => {
         const data = await response.json()
         console.log('new user', data)
         if (data.access_token) {
-          token.value = data.access_token
-          getAuthUser()
+          document.cookie = `token=${data.access_token}; path=/;`
+          getAuthUser(data.access_token)
         }
         users.value = [...users.value, data.user]
       } catch (error) {
@@ -128,8 +127,8 @@ export const useUserStore = defineStore('user', () => {
         })
         const data = await response.json()
         if (data.access_token) {
-          token.value = data.access_token
-          getAuthUser()
+          document.cookie = `token=${data.access_token}; path=/;`
+          getAuthUser(data.access_token)
         } else {
           console.error('No token received')
         }
@@ -138,12 +137,12 @@ export const useUserStore = defineStore('user', () => {
       }
     }
 
-    function logout() {
+    function logout(token) {
       const url = api_url + '/logout'
       fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token.value}`
+          'Authorization': `Bearer ${token}`
         }
       })
         .then(response => response.json())
@@ -151,7 +150,7 @@ export const useUserStore = defineStore('user', () => {
           console.log('logout', data)
         })
         .catch(error => console.error('Error:', error))
-      token.value = null
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       authUser.value = null
       isAuth.value = false
     }
@@ -159,7 +158,6 @@ export const useUserStore = defineStore('user', () => {
     return {
       users,
       user,
-      token,
       authUser,
       isAuth,
       fetchUsers,
