@@ -37,12 +37,12 @@ export const useShopStore = defineStore('shop', () => {
     }
 
 //-------------------------------------------------------------------------------------------//
-    function deleteShop(id) {
+    function deleteShop(id, token) {
       const url = api_url + '/shops/' + id
       fetch(url, {
         method: 'DELETE',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`
+          'Authorization': `Bearer ${token}`
         }
       })
         .then(response => response.json())
@@ -53,12 +53,12 @@ export const useShopStore = defineStore('shop', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function updateShop(id, newShop) {
+    function updateShop(id, newShop, token) {
       const url = api_url + '/shops/' + id
       fetch(url, {
         method: 'PUT',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newShop)
@@ -71,12 +71,12 @@ export const useShopStore = defineStore('shop', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function newShop(shop) {
+    function newShop(shop, token) {
       const url = api_url + '/shops'
       fetch(url, {
         method: 'POST',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(shop)

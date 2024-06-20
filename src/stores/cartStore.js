@@ -46,21 +46,23 @@ export const useCartStore = defineStore('cart', () => {
       console.log(cart.value)
     }
 
-    function newOrder() {
+    function newOrder(token) {
       const products = cart.value.map(product => ({
         id: product.id,
-        quantity: product.quantity
+        quantity: product.quantity,
+        price: product.price
       }))
       console.log('order', products)
       const url = api_url + '/orders'
       fetch(url, {
         method: 'POST',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
-          products: products
+          data: products
         })
       })
         .then(response => response.json())

@@ -7,7 +7,8 @@ export const useProductStore = defineStore('product', () => {
 
     const products = ref([])
     const product = ref(null)
-    const productsByShop = ref([])
+
+    // const productsByShop = ref([])
 
     function fetchProducts() {
       const url = api_url + '/products'
@@ -43,12 +44,12 @@ export const useProductStore = defineStore('product', () => {
     }
 
 //-------------------------------------------------------------------------------------------//
-    function deleteProduct(id) {
+    function deleteProduct(id, token) {
       const url = api_url + '/products/' + id
       fetch(url, {
         method: 'DELETE',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`
+          'Authorization': `Bearer ${token}`
         }
       })
         .then(response => response.json())
@@ -59,12 +60,12 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function updateProduct(id, newProduct) {
+    function updateProduct(id, newProduct, token) {
       const url = api_url + '/products/' + id
       fetch(url, {
         method: 'PUT',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newProduct)
@@ -77,12 +78,12 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function newProduct(product) {
+    function newProduct(product, token) {
       const url = api_url + '/products'
       fetch(url, {
         method: 'POST',
         headers: {
-          // 'Authorization': `Bearer ${token.value}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(product)
