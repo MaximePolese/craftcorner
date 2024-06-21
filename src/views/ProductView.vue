@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useCartStore } from '@/stores/cartStore.js'
 import { useProductStore } from '@/stores/productStore.js'
+import { formatName } from '../stores/helpers.js'
 
 const route = useRoute()
 const store = useAppStore()
@@ -44,14 +45,14 @@ const addToCart = () => {
       <div class="flex justify-center">
         <img class="h-96 p-5" :src="productStore.product.image" :alt="productStore.product.product_name" />
       </div>
-      <h1 class="text-3xl p-5">{{ productStore.product.product_name }}</h1>
-      <div class="flex flex-col sm:flex-row gap-4 p-5">
-        <div class="custom p-5">
-          <p>Artisan : Toto</p>
+      <h1 class="text-3xl p-5">{{ formatName(productStore.product.product_name) }}</h1>
+      <div class="flex flex-col md:grid md:grid-cols-3 gap-4 p-5">
+        <div class="custom p-5 md:col-span-2">
+          <p>Artisan :</p>
           <p>Description : {{ productStore.product.description }}</p>
           <p>Prix : {{ productStore.product.price }} €</p>
         </div>
-        <div class="flex flex-col custom p-5">
+        <div class="flex flex-col custom p-5 md:col-span-1">
           <div class="rating pb-5">
             <input type="radio" name="rating-2" class="mask mask-star-2 bg-yellow-400" disabled />
             <input type="radio" name="rating-2" class="mask mask-star-2 bg-yellow-400" disabled checked />

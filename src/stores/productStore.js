@@ -7,8 +7,7 @@ export const useProductStore = defineStore('product', () => {
 
     const products = ref([])
     const product = ref(null)
-
-    // const productsByShop = ref([])
+    const filteredProducts = ref([])
 
     function fetchProducts() {
       const url = api_url + '/products'
@@ -21,16 +20,16 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    // function getProductsByShop(filter) {
-    //   const url = api_url + '/products?filter=' + filter
-    //   fetch(url)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       console.log('product', data)
-    //       product.value = data
-    //     })
-    //     .catch(error => console.error('Error:', error))
-    // }
+    function getProductsBy(query) {
+      const url = api_url + '/products/filter/' + query
+      // console.log('url', url)
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          filteredProducts.value = data
+        })
+        .catch(error => console.error('Error:', error))
+    }
 
     function getProduct(id) {
       const url = api_url + '/products/' + id
@@ -99,8 +98,10 @@ export const useProductStore = defineStore('product', () => {
     return {
       products,
       product,
+      filteredProducts,
       fetchProducts,
       getProduct,
+      getProductsBy,
       deleteProduct,
       updateProduct,
       newProduct

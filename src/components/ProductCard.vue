@@ -1,11 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
-// import { useShopStore} from '@/stores/shopStore.js'
-// import { useUserStore} from '@/stores/userStore.js'
-
-// const shopStore = useShopStore()
-// const userStore = useUserStore()
+import { formatName } from '../stores/helpers.js'
 
 const props = defineProps({
   id: String,
@@ -55,7 +51,7 @@ const addToCart = () => {
       <figure><img :src="image" :alt="product_name" class="h-36 pt-4" /></figure>
     </RouterLink>
     <div class="card-body p-4">
-      <h2 class="card-title">{{ truncateTitle(product_name) }}</h2>
+      <h2 class="card-title">{{ formatName(truncateTitle(product_name)) }}</h2>
       <p>Artisan : </p>
       <p>Prix : {{ price }} €</p>
       <div class="card-actions justify-end">

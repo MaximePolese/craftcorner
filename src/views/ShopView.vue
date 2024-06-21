@@ -19,7 +19,8 @@ const id = route.params.shopid
 shopStore.getShop(id)
 
 const productStore = useProductStore()
-productStore.fetchProducts()
+const query = '?shop_id=' + shopStore.shop.id
+productStore.getProductsBy(query)
 
 </script>
 
@@ -29,7 +30,7 @@ productStore.fetchProducts()
       <h1 class="text-3xl pl-28 pt-10">{{ shopStore.shop.shop_name }}</h1>
       <div class="flex flex-col items-center py-10">
         <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <li v-for="product in productStore.products" :key="product.id">
+          <li v-for="product in productStore.filteredProducts" :key="product.id">
             <ProductCard
               v-bind:id="product.id.toString()"
               v-bind:product_name="product.product_name"

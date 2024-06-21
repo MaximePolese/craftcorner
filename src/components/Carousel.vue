@@ -8,7 +8,7 @@ const images = [
 ]
 
 const currentImage = ref(images[0])
-
+// TODO: fix the carousel
 const changeImage = (index) => {
   console.log('Changing image to index:', index)
   currentImage.value = images[index]

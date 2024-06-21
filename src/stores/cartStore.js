@@ -18,6 +18,8 @@ export const useCartStore = defineStore('cart', () => {
       const existingProduct = cart.value.find(p => p.id === product.id)
       if (existingProduct) {
         existingProduct.quantity += product.quantity
+        //TODO: manage stock quantity
+
         // existingProduct.stock_quantity -= product.quantity
       } else {
         // product.stock_quantity -= product.quantity
@@ -58,8 +60,7 @@ export const useCartStore = defineStore('cart', () => {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           data: products

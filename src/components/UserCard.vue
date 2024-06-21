@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { formatName } from '../stores/helpers.js'
 
 const props = defineProps({
   id: String,
@@ -15,7 +16,7 @@ const props = defineProps({
   <div class="card w-72 h-96 border-2">
     <figure><img :src="image" alt="userpicture" class="h-40 pt-4" /></figure>
     <div class="card-body p-4">
-      <h2 class="card-title">{{ pseudo }}</h2>
+      <h2 class="card-title">{{ formatName(pseudo) }}</h2>
       <p>Email : {{ email }}</p>
       <p>Adresse : {{ address }}</p>
       <div class="card-actions justify-end">

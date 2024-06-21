@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { formatName } from '../stores/helpers.js'
 
 const props = defineProps({
   id: String,
@@ -14,7 +15,7 @@ const props = defineProps({
   <div class="card w-72 h-96 border-2">
     <figure><img src="https://img.freepik.com/vecteurs-libre/vintage-boutique-logo_1057-438.jpg" alt="title" class="h-40 pt-4" /></figure>
     <div class="card-body p-4">
-      <h2 class="card-title">{{ shop_name }}</h2>
+      <h2 class="card-title">{{ formatName(shop_name) }}</h2>
       <p>Description : {{ biography }}</p>
       <div class="card-actions justify-end">
         <RouterLink :to="`/users/${user_id}/${id}`">

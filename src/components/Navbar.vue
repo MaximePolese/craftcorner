@@ -14,8 +14,11 @@ const cartTotal = computed(() => cartStore.getCartTotal())
 
 const logout = () => {
   const token = getCookie('token')
-  userStore.logout(token)
-  router.push('/')
+  const confirmation = confirm('Etes-vous sûr de vouloir vous déconnecter ?')
+  if (confirmation) {
+    userStore.logout(token)
+    router.push('/')
+  }
 }
 
 </script>

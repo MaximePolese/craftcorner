@@ -111,7 +111,7 @@ export const useUserStore = defineStore('user', () => {
         console.error('Error:', error)
       }
     }
-
+//TODO: vérifier si un user est authentifié avant de se connecter
     async function login(email, password) {
       const url = api_url + '/login'
       try {

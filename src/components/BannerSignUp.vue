@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/userStore.js'
 import image from '@/components/img/image6.png'
 
+const userStore = useUserStore()
 const bgImage = ref(image)
 </script>
 
@@ -16,9 +18,17 @@ const bgImage = ref(image)
           <p class="text-2xl">Vendez les sur</p>
           <img src="@/assets/logo.svg" alt="Logo" class="pl-2 min-h-6 h-6" />
         </div>
-        <RouterLink to="/register">
-          <button class="btn btn-primary btn-custom-primary btn-ghost">Devenir Marchand</button>
-        </RouterLink>
+        <div v-if="!userStore.isAuth">
+          <RouterLink to="/register">
+            <button class="btn btn-primary btn-custom-primary btn-ghost">Devenir Marchand</button>
+          </RouterLink>
+        </div>
+        <div v-else>
+          <!--          TODO: Add link to create a shop-->
+          <RouterLink to="/">
+            <button class="btn btn-primary btn-custom-primary btn-ghost">Devenir Marchand</button>
+          </RouterLink>
+        </div>
       </div>
     </div>
   </div>

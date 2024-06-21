@@ -5,6 +5,7 @@ import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore.js'
 import { useShopStore } from '@/stores/shopStore.js'
 import ShopCard from '@/components/ShopCard.vue'
+import { formatName } from '../stores/helpers.js'
 
 const route = useRoute()
 const store = useAppStore()
@@ -27,7 +28,7 @@ shopStore.getShopsByUser(id)
       <div class="flex justify-center">
         <img class="h-96 p-5" :src="userStore.user.image" alt="userpicture" />
       </div>
-      <h1 class="text-3xl p-5">{{ userStore.user.pseudo }}</h1>
+      <h1 class="text-3xl p-5">{{ formatName(userStore.user.pseudo) }}</h1>
       <div class="custom p-5 mx-5">
         <p>Email : {{ userStore.user.email }}</p>
         <p>Téléphone : {{ userStore.user.phone_number }}</p>
@@ -41,19 +42,21 @@ shopStore.getShopsByUser(id)
           <p class="pl-5">362 Avis</p>
         </div>
       </div>
-      <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ userStore.user.pseudo }}</h1>
-      <div class="flex flex-col items-center py-10">
-        <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <li v-for="shop in shopStore.shopsByUser" :key="shop.id">
-            <ShopCard
-              v-bind:id="shop.id.toString()"
-              v-bind:shop_name="shop.shop_name"
-              v-bind:biography="shop.biography"
-              v-bind:shop_theme="shop.shop_theme"
-              v-bind:user_id="userStore.user.id.toString()"
-            />
-          </li>
-        </ul>
+      <div v-if="shopStore.shopsByUser.length > 0">
+        <h1 class="text-3xl p-5 mt-10">Les boutiques de {{ formatName(userStore.user.pseudo) }}</h1>
+        <div class="flex flex-col items-center py-10">
+          <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <li v-for="shop in shopStore.shopsByUser" :key="shop.id">
+              <ShopCard
+                v-bind:id="shop.id.toString()"
+                v-bind:shop_name="shop.shop_name"
+                v-bind:biography="shop.biography"
+                v-bind:shop_theme="shop.shop_theme"
+                v-bind:user_id="userStore.user.id.toString()"
+              />
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
