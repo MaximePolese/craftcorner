@@ -47,16 +47,16 @@ const newOrder = () => {
   <div class="flex justify-center">
     <div class="container m-5 gap-4">
       <h1 class="text-3xl pl-28 py-10">Mon Panier</h1>
-      <div class="flex flex-col md:grid md:grid-cols-3 mx-4">
+      <div v-if="cartStore.cart.length > 0" class="flex flex-col md:grid md:grid-cols-3 mx-4">
         <div class="gap-4 col-span-2">
           <div v-for="product in cartStore.cart" :key="product.id">
             <div class="custom flex items-center justify-between mb-4">
               <div class="flex gap-4 p-5">
                 <RouterLink :to="`/product/${product.id}`">
-                <div class="flex flex-col gap-4">
-                  <h2 class="card-title text-2xl">{{ formatName(product.product_name) }}</h2>
-                  <img :src="product.image" :alt="product.product_name" class="h-20" />
-                </div>
+                  <div class="flex flex-col gap-4">
+                    <h2 class="card-title text-2xl">{{ formatName(product.product_name) }}</h2>
+                    <img :src="product.image" :alt="product.product_name" class="h-20" />
+                  </div>
                 </RouterLink>
                 <div class="flex flex-col justify-end gap-4">
                   <label for="quantity">Quantité : <input id="quantity" type="number" min="1" v-model="product.quantity"
@@ -84,7 +84,8 @@ const newOrder = () => {
             <div>
               <h2 class="text-2xl font-semibold mb-4">Récapitulatif de la commande :</h2>
               <div v-for="product in cartStore.cart" :key="product.id" class="mb-2">
-                <p class="text-lg">{{ formatName(product.product_name) }} - {{ product.quantity }} x {{ product.price }} €</p>
+                <p class="text-lg">{{ formatName(product.product_name) }} - {{ product.quantity }} x {{ product.price }}
+                  €</p>
               </div>
             </div>
             <div>
@@ -96,6 +97,9 @@ const newOrder = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div v-else class="flex items-center justify-center my-10">
+        <h2 class="text-2xl ">Votre panier est vide</h2>
       </div>
     </div>
   </div>
