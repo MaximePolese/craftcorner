@@ -26,6 +26,7 @@ export const useProductStore = defineStore('product', () => {
       fetch(url)
         .then(response => response.json())
         .then(data => {
+          console.log('filtered products', data)
           filteredProducts.value = data
         })
         .catch(error => console.error('Error:', error))

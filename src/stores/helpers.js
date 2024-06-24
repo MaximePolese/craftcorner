@@ -5,6 +5,10 @@ export function getCookie(name) {
 }
 
 export function formatName(name) {
-  if (!name) return '';
-  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  if (!name) return ''
+  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+}
+
+export function truncateTitle(title, length = 30) {
+  return title.length > length ? title.slice(0, length) + '...' : title
 }

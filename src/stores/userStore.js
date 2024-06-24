@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', () => {
     const user = ref(null)
     const authUser = ref(null)
     const isAuth = ref(false)
+    const craftsmen = ref([])
 
     function fetchUsers() {
       const url = api_url + '/users'
@@ -19,6 +20,12 @@ export const useUserStore = defineStore('user', () => {
           users.value = data
         })
         .catch(error => console.error('Error:', error))
+    }
+
+    function getCraftsmen() {
+      fetchUsers()
+      craftsmen.value = users.value.filter(user => user.role === 'craftman')
+      console.log('craftsmen', craftsmen.value, craftsmen.value.length)
     }
 
     function getUser(id) {
@@ -111,7 +118,7 @@ export const useUserStore = defineStore('user', () => {
         console.error('Error:', error)
       }
     }
-//TODO: vérifier si un user est authentifié avant de se connecter
+
     async function login(email, password) {
       const url = api_url + '/login'
       try {
@@ -160,7 +167,9 @@ export const useUserStore = defineStore('user', () => {
       user,
       authUser,
       isAuth,
+      craftsmen,
       fetchUsers,
+      getCraftsmen,
       getUser,
       deleteUser,
       updateUser,
