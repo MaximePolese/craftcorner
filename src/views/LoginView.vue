@@ -13,7 +13,6 @@ const userStore = useUserStore()
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
-//TODO: améliorer le front de la login page
 const email = ref('')
 const password = ref('')
 
