@@ -1,22 +1,34 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useCartStore } from '@/stores/cartStore.js'
 import { useProductStore } from '@/stores/productStore.js'
+// import { useUserStore } from '@/stores/userStore.js'
+// import { useShopStore } from '@/stores/shopStore.js'
 import { formatName } from '../stores/helpers.js'
 
 const route = useRoute()
 const store = useAppStore()
 const cartStore = useCartStore()
 const productStore = useProductStore()
+// const shopStore = useShopStore()
+// const userStore = useUserStore()
 const id = route.params.id
 let quantity = ref(1)
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
+
 productStore.getProduct(id)
+
+// watch(() => productStore.product, async (newProduct) => {
+//   if (newProduct) {
+//     await shopStore.getShop(newProduct.shop_id)
+//     await userStore.getUser(shopStore.shop.user_id)
+//   }
+// }, { immediate: true })
 
 const addToCart = () => {
   const productToAdd = {
@@ -48,7 +60,7 @@ const addToCart = () => {
       <h1 class="text-3xl p-5">{{ formatName(productStore.product.product_name) }}</h1>
       <div class="flex flex-col md:grid md:grid-cols-3 gap-4 p-5">
         <div class="custom p-5 md:col-span-2">
-          <p>Artisan :</p>
+<!--          <p>Artisan : {{ formatName(userStore.user.pseudo) }}</p>-->
           <p>Description : {{ productStore.product.description }}</p>
           <p>Prix : {{ productStore.product.price }} €</p>
         </div>
