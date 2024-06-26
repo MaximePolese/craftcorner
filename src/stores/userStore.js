@@ -119,13 +119,30 @@ export const useUserStore = defineStore('user', () => {
       }
     }
 
+    function getCSRFToken() {
+      const url = api_url + '/sanctum/csrf-cookie'
+      fetch(url, {
+        credentials: 'include',
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('csrf', data)
+        })
+        .catch(error => console.error('Error:', error))
+    }
+
     async function login(email, password) {
+      await getCSRFToken()
       const url = api_url + '/login'
       try {
         const response = await fetch(url, {
           method: 'POST',
+          credentials: 'include',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Referer': 'https://localhost:5173',
           },
           body: JSON.stringify({
             email: email,
@@ -133,23 +150,24 @@ export const useUserStore = defineStore('user', () => {
           })
         })
         const data = await response.json()
-        if (data.access_token) {
-          document.cookie = `token=${data.access_token}; path=/;`
-          getAuthUser(data.access_token)
+        if (data) {
+          console.log('you are login', data)
         } else {
-          console.error('No token received')
+          console.error('you are not login')
         }
       } catch (error) {
         console.error('Error:', error)
       }
     }
 
-    function logout(token) {
+    function logout() {
       const url = api_url + '/logout'
       fetch(url, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       })
         .then(response => response.json())
@@ -157,7 +175,6 @@ export const useUserStore = defineStore('user', () => {
           console.log('logout', data)
         })
         .catch(error => console.error('Error:', error))
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       authUser.value = null
       isAuth.value = false
     }

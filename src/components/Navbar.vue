@@ -16,7 +16,7 @@ const logout = () => {
   const token = getCookie('token')
   const confirmation = confirm('Etes-vous sûr de vouloir vous déconnecter ?')
   if (confirmation) {
-    userStore.logout(token)
+    userStore.logout()
     router.push('/')
   }
 }
