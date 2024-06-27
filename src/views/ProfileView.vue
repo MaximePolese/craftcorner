@@ -4,13 +4,12 @@ import { useRouter, useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useUserStore } from '@/stores/userStore.js'
-import { getCookie, formatName } from '@/stores/helpers.js'
+import { formatName } from '@/stores/helpers.js'
 
 const router = useRouter()
 const route = useRoute()
 const store = useAppStore()
 const userStore = useUserStore()
-const token = getCookie('token')
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
@@ -41,14 +40,14 @@ const updateForm = () => {
     delete formData.password
     delete formData.password_confirmation
   }
-  userStore.updateUser(userStore.authUser.id, formData, token)
+  userStore.updateUser(userStore.authUser.id, formData)
   router.push('/')
 }
 
 const deleteUser = () => {
   const confirmation = confirm('Etes-vous sûr de vouloir supprimer votre compte ?')
   if (confirmation) {
-    userStore.deleteUser(userStore.authUser.id, token)
+    userStore.deleteUser(userStore.authUser.id)
     router.push('/')
   }
 }

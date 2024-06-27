@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { getCookie } from '@/stores/helpers.js'
 
 const api_url = import.meta.env.VITE_API_URL
 
@@ -18,11 +19,7 @@ export const useCartStore = defineStore('cart', () => {
       const existingProduct = cart.value.find(p => p.id === product.id)
       if (existingProduct) {
         existingProduct.quantity += product.quantity
-        //TODO: manage stock quantity
-
-        // existingProduct.stock_quantity -= product.quantity
       } else {
-        // product.stock_quantity -= product.quantity
         cart.value.push(product)
       }
       console.log(cart.value)
@@ -48,7 +45,8 @@ export const useCartStore = defineStore('cart', () => {
       console.log(cart.value)
     }
 
-    function newOrder(token) {
+    function newOrder() {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const products = cart.value.map(product => ({
         id: product.id,
         quantity: product.quantity,
@@ -58,9 +56,12 @@ export const useCartStore = defineStore('cart', () => {
       const url = api_url + '/orders'
       fetch(url, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': 'https://localhost:5173',
+          'X-XSRF-TOKEN': token
         },
         body: JSON.stringify({
           data: products

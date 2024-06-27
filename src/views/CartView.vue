@@ -4,13 +4,12 @@ import { onMounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore.js'
-import { formatName, getCookie } from '@/stores/helpers.js'
+import { formatName } from '@/stores/helpers.js'
 
 const route = useRoute()
 const store = useAppStore()
 const cartStore = useCartStore()
 const userStore = useUserStore()
-const token = getCookie('token')
 
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
@@ -33,7 +32,7 @@ const newOrder = () => {
     alert('Votre panier est vide')
   } else {
     if (userStore.isAuth === true) {
-      cartStore.newOrder(token)
+      cartStore.newOrder()
       alert('Votre commande a bien été enregistrée')
     } else {
       alert('Vous devez être connecté pour passer une commande')

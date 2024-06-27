@@ -3,7 +3,6 @@ import { useCartStore } from '../stores/cartStore'
 import { useUserStore } from '@/stores/userStore.js'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCookie } from '@/stores/helpers.js'
 
 const router = useRouter()
 const cartStore = useCartStore()
@@ -11,16 +10,13 @@ const userStore = useUserStore()
 const cartCount = computed(() => cartStore.getCartCount())
 const cartTotal = computed(() => cartStore.getCartTotal())
 
-
 const logout = () => {
-  const token = getCookie('token')
   const confirmation = confirm('Etes-vous sûr de vouloir vous déconnecter ?')
   if (confirmation) {
     userStore.logout()
     router.push('/')
   }
 }
-
 </script>
 
 <template>

@@ -43,7 +43,7 @@ export const useProductStore = defineStore('product', () => {
         .catch(error => console.error('Error:', error))
     }
 
-//-------------------------------------------------------------------------------------------//
+//  TODO: implement the following functions, headers,credentials, etc
     function deleteProduct(id, token) {
       const url = api_url + '/products/' + id
       fetch(url, {

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { getCookie } from '@/stores/helpers.js'
 
 const api_url = import.meta.env.VITE_API_URL
 
@@ -42,6 +43,7 @@ export const useUserStore = defineStore('user', () => {
     function getAuthUser(token) {
       const url = api_url + '/user'
       fetch(url, {
+        credentials: 'include',
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,12 +57,17 @@ export const useUserStore = defineStore('user', () => {
       isAuth.value = true
     }
 
-    function deleteUser(id, token) {
+    function deleteUser(id) {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/users/' + id
       fetch(url, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': 'https://localhost:5173',
+          'X-XSRF-TOKEN': token
         }
       })
         .then(response => response.json())
@@ -74,13 +81,17 @@ export const useUserStore = defineStore('user', () => {
       isAuth.value = false
     }
 
-    function updateUser(id, newUser, token) {
+    function updateUser(id, newUser) {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/users/' + id
       fetch(url, {
+        credentials: 'include',
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': 'https://localhost:5173',
+          'X-XSRF-TOKEN': token
         },
         body: JSON.stringify(newUser)
       })
@@ -99,7 +110,9 @@ export const useUserStore = defineStore('user', () => {
         const response = await fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Origin': 'https://localhost:5173'
           },
           body: JSON.stringify(user)
         })
@@ -119,21 +132,9 @@ export const useUserStore = defineStore('user', () => {
       }
     }
 
-    function getCSRFToken() {
-      const url = api_url + '/sanctum/csrf-cookie'
-      fetch(url, {
-        credentials: 'include',
-        method: 'GET'
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('csrf', data)
-        })
-        .catch(error => console.error('Error:', error))
-    }
-
     async function login(email, password) {
-      await getCSRFToken()
+      await getToken()
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/login'
       try {
         const response = await fetch(url, {
@@ -142,7 +143,8 @@ export const useUserStore = defineStore('user', () => {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Referer': 'https://localhost:5173',
+            'Origin': 'https://localhost:5173',
+            'X-XSRF-TOKEN': token
           },
           body: JSON.stringify({
             email: email,
@@ -150,10 +152,11 @@ export const useUserStore = defineStore('user', () => {
           })
         })
         const data = await response.json()
-        if (data) {
-          console.log('you are login', data)
+        if (data.access_token) {
+          document.cookie = `token=${data.access_token}; path=/;`
+          getAuthUser(data.access_token)
         } else {
-          console.error('you are not login')
+          console.error('No token received')
         }
       } catch (error) {
         console.error('Error:', error)
@@ -161,13 +164,16 @@ export const useUserStore = defineStore('user', () => {
     }
 
     function logout() {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/logout'
       fetch(url, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Origin': 'https://localhost:5173',
+          'X-XSRF-TOKEN': token
         }
       })
         .then(response => response.json())
@@ -175,9 +181,77 @@ export const useUserStore = defineStore('user', () => {
           console.log('logout', data)
         })
         .catch(error => console.error('Error:', error))
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       authUser.value = null
       isAuth.value = false
     }
+
+    function getToken() {
+      const url = api_url + '/sanctum/csrf-cookie'
+      fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('csrf', data)
+        })
+        .catch(error => console.error('Error:', error))
+    }
+
+    // async function login(email, password) {
+    //   await getToken()
+    //   const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
+    //   console.log(token)
+    //   const url = api_url + '/login'
+    //   try {
+    //     const response = await fetch(url, {
+    //       method: 'POST',
+    //       credentials: 'include',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json',
+    //         'Origin': 'https://localhost:5173',
+    //         'X-XSRF-TOKEN': token
+    //       },
+    //       body: JSON.stringify({
+    //         email: email,
+    //         password: password
+    //       })
+    //     })
+    //     const data = await response.json()
+    //     if (data) {
+    //       console.log('login response', data)
+    //       authUser.value = data.user
+    //       isAuth.value = true
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error)
+    //   }
+    // }
+    //
+    // function logout() {
+    //   const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
+    //   console.log(token)
+    //   const url = api_url + '/logout'
+    //   fetch(url, {
+    //     method: 'POST',
+    //     credentials: 'include',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json',
+    //       'Origin': 'https://localhost:5173',
+    //       'X-XSRF-TOKEN': token
+    //     }
+    //   })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log('logout', data)
+    //       authUser.value = null
+    //       isAuth.value = false
+    //     })
+    //     .catch(error => console.error('Error:', error))
+    // }
 
     return {
       users,
