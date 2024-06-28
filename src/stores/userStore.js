@@ -126,6 +126,7 @@ export const useUserStore = defineStore('user', () => {
         if (data) {
           console.log('new user', data)
           users.value = [...users.value, data]
+          getAuthUser()
         } else {
           console.error('No user received')
         }
