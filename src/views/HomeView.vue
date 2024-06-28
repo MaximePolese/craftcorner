@@ -1,36 +1,36 @@
 <script setup>
-// Importing necessary modules and components
-import { useRoute } from 'vue-router' // A composable for accessing the current route
-import { onMounted } from 'vue' // A lifecycle hook that is called after the component is mounted
-import { useAppStore } from '@/stores/appStore' // A composable for accessing the application store
+
+import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
+import { useAppStore } from '@/stores/appStore'
 import { useProductStore } from '@/stores/productStore.js'
+import { useUserStore } from '@/stores/userStore.js'
 
-import ProductCard from '@/components/ProductCard.vue' // A component for displaying a product
+import ProductCard from '@/components/ProductCard.vue'
 import Carousel from '@/components/Carousel.vue'
-import BannerSignUp from '@/components/BannerSignUp.vue' // A component for displaying a carousel
+import BannerSignUp from '@/components/BannerSignUp.vue'
 
-// Using the composables
-const route = useRoute() // Get the current route
-const store = useAppStore() // Get the application store
-// Set the document title when the component is mounted
+const route = useRoute()
+const store = useAppStore()
+const productStore = useProductStore()
+const userStore = useUserStore()
+
 onMounted(() => {
   document.title = `${route.name} - ${store.appName}`
 })
 
-const productStore = useProductStore()
+userStore.getToken()
 productStore.fetchProducts()
-
 </script>
 
 <template>
   <div class="flex justify-center">
     <div class="container">
-      <Carousel /> <!-- Display the carousel -->
+      <Carousel />
       <h1 class="text-3xl pl-28 pt-10">Nos meilleures ventes</h1>
       <div class="flex flex-col items-center py-10">
         <div>
           <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <!-- Loop over the products and display each one in a ProductCard -->
             <li v-for="product in productStore.products" :key="product.id">
               <ProductCard
                 v-bind:id="product.id.toString()"
@@ -50,7 +50,7 @@ productStore.fetchProducts()
           </ul>
         </div>
       </div>
-      <BannerSignUp /> <!-- Display the sign up banner -->
+      <BannerSignUp />
     </div>
   </div>
 </template>
