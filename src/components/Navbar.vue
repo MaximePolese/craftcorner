@@ -1,14 +1,50 @@
 <script setup>
 import { useCartStore } from '../stores/cartStore'
 import { useUserStore } from '@/stores/userStore.js'
-import { computed } from 'vue'
+import { useProductStore } from '@/stores/productStore.js'
+import { computed, ref, watch, onMounted, onBeforeUnmount, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const productStore = useProductStore()
+
 const cartCount = computed(() => cartStore.getCartCount())
 const cartTotal = computed(() => cartStore.getCartTotal())
+
+
+const search = ref('')
+const showDropdown = ref(false)
+
+watchEffect(() => {
+  if (router.currentRoute.value.path === '/') {
+    search.value = ''
+  }
+})
+
+const logSearchValue = () => {
+  console.log(search.value)
+  showDropdown.value = true
+}
+
+onMounted(() => {
+  window.addEventListener('click', handleOutsideClick)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('click', handleOutsideClick)
+})
+
+const handleOutsideClick = (event) => {
+  if (!event.target.closest('.form-control')) {
+    showDropdown.value = false
+  }
+}
+
+watch(search, (newSearchValue) => {
+  productStore.searchProductsBy(newSearchValue)
+})
 
 const logout = () => {
   const confirmation = confirm('Etes-vous sûr de vouloir vous déconnecter ?')
@@ -31,7 +67,18 @@ const logout = () => {
       <div class="flex-2 sm:flex-1">
         <div class="form-control">
           <input type="text" placeholder="Search"
-                 class="input input-bordered h-8 w-full rounded-full custom-border border-2 bg-white text-black" />
+                 class="input input-bordered h-8 w-full rounded-full custom-border border-2 bg-white text-black"
+                 v-model="search" @keyup="logSearchValue" />
+          <!--          TODO: add overflow and fix routerlink-->
+          <div v-show="showDropdown" class="search-results-dropdown ">
+            <ul class="search-results">
+              <li v-for="product in productStore.searchProducts" :key="product.id">
+                <RouterLink :to="`/product/${product.id}`">
+                  <p>{{ product.product_name }}</p>
+                </RouterLink>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="flex-1 flex justify-end gap-2">
@@ -141,5 +188,26 @@ const logout = () => {
 </template>
 
 <style scoped>
+.search-results-dropdown {
+  position: absolute;
+  top: 5.5%;
+  background: var(--vt-c-snow);
+  z-index: 1000;
+  border-radius: 20px;
+}
 
+.search-results-dropdown li {
+  color: #160C28;
+  border-bottom: 2px solid;
+  border-bottom-color: #9FA9BC;
+  padding: 0 15em 0 1em;
+}
+
+.search-results-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.form-control:focus-within .search-results-dropdown {
+  display: block;
+}
 </style>
