@@ -8,6 +8,7 @@ export const useProductStore = defineStore('product', () => {
     const products = ref([])
     const product = ref(null)
     const filteredProducts = ref([])
+    const searchProducts = ref([])
 
     function fetchProducts() {
       const url = api_url + '/products'
@@ -39,6 +40,17 @@ export const useProductStore = defineStore('product', () => {
         .then(data => {
           console.log('product', data)
           product.value = data
+        })
+        .catch(error => console.error('Error:', error))
+    }
+
+    function searchProductsBy(query) {
+      const url = api_url + '/products/search/?search_term=' + query
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log('search products', data)
+          searchProducts.value = data
         })
         .catch(error => console.error('Error:', error))
     }
@@ -100,9 +112,11 @@ export const useProductStore = defineStore('product', () => {
       products,
       product,
       filteredProducts,
+      searchProducts,
       fetchProducts,
       getProduct,
       getProductsBy,
+      searchProductsBy,
       deleteProduct,
       updateProduct,
       newProduct
