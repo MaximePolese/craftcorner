@@ -40,21 +40,25 @@ export const useUserStore = defineStore('user', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    function getAuthUser(token) {
+    function getAuthUser() {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/user'
       fetch(url, {
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': 'https://localhost:5173',
+          'X-XSRF-TOKEN': token
         }
       })
         .then(response => response.json())
         .then(data => {
           console.log('authUser', data)
           authUser.value = data
+          isAuth.value = true
         })
         .catch(error => console.error('Error:', error))
-      isAuth.value = true
     }
 
     function deleteUser(id) {
@@ -74,11 +78,10 @@ export const useUserStore = defineStore('user', () => {
         .then(data => {
           console.log('delete user', data)
           users.value = users.value.filter(user => user.id !== id)
+          authUser.value = null
+          isAuth.value = false
         })
         .catch(error => console.error('Error:', error))
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      authUser.value = null
-      isAuth.value = false
     }
 
     function updateUser(id, newUser) {
@@ -105,35 +108,33 @@ export const useUserStore = defineStore('user', () => {
     }
 
     async function newUser(user) {
+      const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/register'
       try {
         const response = await fetch(url, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Origin': 'https://localhost:5173'
+            'Origin': 'https://localhost:5173',
+            'X-XSRF-TOKEN': token
           },
           body: JSON.stringify(user)
         })
-        if (!response.ok) {
-          console.error('Server error:', response.status)
-          return
-        }
         const data = await response.json()
-        console.log('new user', data)
-        if (data.access_token) {
-          document.cookie = `token=${data.access_token}; path=/;`
-          getAuthUser(data.access_token)
+        if (data) {
+          console.log('new user', data)
+          users.value = [...users.value, data]
+        } else {
+          console.error('No user received')
         }
-        users.value = [...users.value, data.user]
       } catch (error) {
         console.error('Error:', error)
       }
     }
 
     async function login(email, password) {
-      await getToken()
       const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
       const url = api_url + '/login'
       try {
@@ -152,11 +153,11 @@ export const useUserStore = defineStore('user', () => {
           })
         })
         const data = await response.json()
-        if (data.access_token) {
-          document.cookie = `token=${data.access_token}; path=/;`
-          getAuthUser(data.access_token)
+        if (data) {
+          console.log('login', data)
+          getAuthUser()
         } else {
-          console.error('No token received')
+          console.error('Login failed')
         }
       } catch (error) {
         console.error('Error:', error)
@@ -179,11 +180,11 @@ export const useUserStore = defineStore('user', () => {
         .then(response => response.json())
         .then(data => {
           console.log('logout', data)
+          authUser.value = null
+          isAuth.value = false
         })
         .catch(error => console.error('Error:', error))
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      authUser.value = null
-      isAuth.value = false
+
     }
 
     function getToken() {
@@ -199,60 +200,6 @@ export const useUserStore = defineStore('user', () => {
         .catch(error => console.error('Error:', error))
     }
 
-    // async function login(email, password) {
-    //   await getToken()
-    //   const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
-    //   console.log(token)
-    //   const url = api_url + '/login'
-    //   try {
-    //     const response = await fetch(url, {
-    //       method: 'POST',
-    //       credentials: 'include',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json',
-    //         'Origin': 'https://localhost:5173',
-    //         'X-XSRF-TOKEN': token
-    //       },
-    //       body: JSON.stringify({
-    //         email: email,
-    //         password: password
-    //       })
-    //     })
-    //     const data = await response.json()
-    //     if (data) {
-    //       console.log('login response', data)
-    //       authUser.value = data.user
-    //       isAuth.value = true
-    //     }
-    //   } catch (error) {
-    //     console.error('Error:', error)
-    //   }
-    // }
-    //
-    // function logout() {
-    //   const token = decodeURIComponent(getCookie('XSRF-TOKEN'))
-    //   console.log(token)
-    //   const url = api_url + '/logout'
-    //   fetch(url, {
-    //     method: 'POST',
-    //     credentials: 'include',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Accept': 'application/json',
-    //       'Origin': 'https://localhost:5173',
-    //       'X-XSRF-TOKEN': token
-    //     }
-    //   })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       console.log('logout', data)
-    //       authUser.value = null
-    //       isAuth.value = false
-    //     })
-    //     .catch(error => console.error('Error:', error))
-    // }
-
     return {
       users,
       user,
@@ -266,7 +213,8 @@ export const useUserStore = defineStore('user', () => {
       updateUser,
       newUser,
       login,
-      logout
+      logout,
+      getToken
     }
   }, { persist: true }
 )
