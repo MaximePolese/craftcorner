@@ -5,5 +5,5 @@ services:
       dockerfile: Dockerfile
     container_name: vue-app
     ports:
-      - 80:80
+      - 5173:80
 
