@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: craftcorner-frontend
+    environment:
+        - VITE_API_URL=http://localhost:8000/api
     ports:
       - 80:80
 
