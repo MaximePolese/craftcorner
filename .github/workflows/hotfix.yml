@@ -1,10 +1,9 @@
-name: Build, Test and Merge
+name: Hotfix
 
 on:
   push:
     branches:
-      - 'feature/*'  # Correspond à toutes les branches commençant par 'feature/'
-      - 'bugfix/*'  # Correspond à toutes les branches commençant par 'bugfix/'
+      - 'hotfix/*'
 
 jobs:
   build-and-test:
@@ -41,10 +40,10 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Merge feature branch into dev
+      - name: Merge hotfix branch into master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git checkout dev
+          git checkout master
           git rebase ${{ github.ref_name }}
-          git push origin dev
+          git push origin master
