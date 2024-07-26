@@ -4,12 +4,12 @@ on:
   workflow_run:
     workflows: [ "Build, Test, Docker and Merge", "Hotfix" ]
     types:
-      - success
+      - completed
 
 jobs:
   docker:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,6 +36,7 @@ jobs:
   deploy:
     needs: docker
     runs-on: ubuntu-latest
+    if: success()
 
     steps:
       - name: Checkout code
