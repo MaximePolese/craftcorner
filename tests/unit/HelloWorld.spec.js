@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
 describe('HelloWorld.vue', () => {
   it('renders props.msg when passed', () => {
-    const msg = 'Hello Vitest World 2!'
+    const msg = 'Hello Vitest World 3!'
     const wrapper = mount(HelloWorld, {
       props: { msg }
     })
