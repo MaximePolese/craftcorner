@@ -5,6 +5,7 @@ on:
     branches:
       - 'feature/*'  # Correspond à toutes les branches commençant par 'feature/'
       - 'bugfix/*'  # Correspond à toutes les branches commençant par 'bugfix/'
+      - 'hotfix/*'  # Correspond à toutes les branches commençant par 'hotfix/'
 
 jobs:
   build-and-test:
