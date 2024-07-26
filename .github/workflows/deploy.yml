@@ -49,6 +49,6 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USER }}
           key: ${{ secrets.DEPLOY_SERVER_SSH_KEY }}
           script: |
-            cd /home/campus
+            cd /home/${{ secrets.DEPLOY_SERVER_USER }}
             docker-compose pull
             docker-compose restart frontend
